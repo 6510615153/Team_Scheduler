@@ -8,18 +8,7 @@
     <h2>Register</h2>
     <form method="post">
         {% csrf_token %}
-        <div>
-            {{ form.username.label_tag }}
-            {{ form.username }}
-        </div>
-        <div>
-            {{ form.email.label_tag }}
-            {{ form.email }}
-        </div>
-        <div>
-            {{ form.password.label_tag }}
-            {{ form.password }}
-        </div>
+        {{ form.as_p }}}
         <button type="submit">Register</button>
     </form>
 </body>
