@@ -14,6 +14,6 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;เราคาดหวังเป็นอย่างยิ่งว่า Team Schedule ของเรานั้นจะต้องตอบโจทย์ในการมอบความสะดวกสบายให้กับผู้ใช้งานในทุกๆ ช่วงวัยโดยเฉพาะวัยเรียนและทำงาน ที่สามารถพบเจอปัญหาเรื่องจัดการกับเวลาทำงาน และเวลาว่างอยู่เป็นประจำ 
 
-Link to Jira (tracker): [Jira](google.com)
+Link to Jira (tracker): [Jira](https://teamscheduletu.atlassian.net/)
 
-Link app on cloud: [PythonAnywhere](nitipong.pythonanywhere.com)
+Link app on cloud: [PythonAnywhere](https://nitipong.pythonanywhere.com/)
