@@ -4,8 +4,12 @@ from . import views
 app_name = "users"
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('dashboard', views.index, name='dashboard'),
     path('login', views.login_view, name='login'),
     path('logout', views.logout_view, name='logout'),
     path('register', views.register_view, name='register'),
+
+    path('group', views.group_view, name='group'),
+    path('group_create', views.group_create, name='group_create'),
+    path('group_page', views.group_page, name='group_page'),
 ]

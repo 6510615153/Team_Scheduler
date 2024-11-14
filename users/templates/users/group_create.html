@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Group</title>
+</head>
+<body>
+    <center>
+        <div>
+        <h2>Create New Group</h2>
+        <form method="post">
+            {% csrf_token %}
+            <label>Group Code</label>   
+            {{ form.group_code }}
+            <br><br>
+            <label>Group Name</label>
+            {{ form.group_name }}
+            <button type="submit">Register</button>
+        </form>
+        </div>
+        </center>
+</body>
+</html>

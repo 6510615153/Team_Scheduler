@@ -2,14 +2,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
 </head>
-<body>
+<style>
+.back_temp {
+    background-image:linear-gradient(rgb(231, 177, 160), rgb(180, 145, 131)); 
+    background-repeat: no-repeat;  min-height: 100vh;
+}
+.register2 {
+    margin-top: 180px;
+    border: 3px solid black;
+    background-color: rgb(184, 127, 104);
+    padding: 35px 70px;
+    display: inline-block;
+    border-radius: 10px;
+    text-decoration: none;
+    color:black;
+    text-align: center;
+    }
+</style>
+<body class="back_temp">
+    <center>
+    <div class="register2">
     <h2>Register</h2>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}}
+        <label>Username</label>   
+        {{ form.username }}
+        <br><br>
+        <label>Email Address</label>
+        {{ form.email }}
+        <br><br>
+        <label>Enter Password</label>
+        {{ form.password1 }}
+        <br><br>
+        <label>Confirm Password</label>
+        {{ form.password2 }}
+        <br><br>
         <button type="submit">Register</button>
     </form>
+    </div>
+    </center>
 </body>
 </html>

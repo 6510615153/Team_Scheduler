@@ -2,7 +2,9 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
-from .forms import UserRegisterForm
+from .forms import UserRegisterForm, GroupCreationForm
+from django.contrib.auth.decorators import login_required
+from .models import Group, Member, Joining
 
 # Create your views here.
 
@@ -51,3 +53,31 @@ def register_view(request):
         "form": form,
         "Message" : "Register your account to gain access.",
     })
+
+def group_view(request):
+    groups = Group.objects.all()
+    member = Member.objects.get(member_user=request.user)
+    joined = member.joined_group.all()
+    return render(request, "users/group_list.html", {
+        "groups": joined,
+        "member": member,
+    })
+
+def group_create(request):
+    member = Member.objects.get(member_user=request.user)
+    if request.method == "POST":
+        form = GroupCreationForm(request.POST)
+        if form.is_valid():
+            group = form.save()
+            joined = Joining.objects.create(joined_group=group)
+            member.joined_group.add(joined)
+            return HttpResponseRedirect(reverse("users:group"))
+    else:
+        form = GroupCreationForm()
+
+    return render(request, "users/group_create.html", {
+        "form": form,
+    })
+
+def group_page(request):
+    pass
