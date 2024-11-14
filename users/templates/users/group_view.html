@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group List</title>
+</head>
+<style>
+    .box_temp {
+        margin-top: 180px;
+        border: 3px solid black;
+        background-color: rgb(184, 127, 104);
+        padding: 14px 28px;
+        display: inline-block;
+        border-radius: 10px;
+        text-decoration: none;
+        color:black;
+        text-align: center;
+        font-size: 24px;
+    }
+    </style>
+<body>
+    <h2>Group List</h2>
+        <ul>
+        {% for group in groups %}
+            <li>{{ group.joined_group }}</li>
+        {% empty %}
+            <li>No group joined</li>
+        {% endfor %}
+        </ul>
+
+    <form action="{% url 'users:join_group' %}" method="post">
+        {% csrf_token %}
+        <label>Enter Group Code</label>   
+        <input type="text" name="group_code" style="font-size: 23px; height: 25px;">
+        <button type="submit">Join Group</button>
+    </form>
+
+    <a href="{% url 'users:group_create' %}" class="box_temp">Create Group</a>
+    <a href="{% url 'users:dashboard' %}" class="box_temp">Back to Dashboard</a>
+</body>
+</html>
