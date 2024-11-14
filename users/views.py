@@ -22,7 +22,7 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect(reverse("users:index"))
+            return HttpResponseRedirect(reverse("users:dashboard"))
         else:
             return render(request, "users/login.html", {
                 "Message" : "Wrong Username or Password."
@@ -58,7 +58,7 @@ def group_view(request):
     groups = Group.objects.all()
     member = Member.objects.get(member_user=request.user)
     joined = member.joined_group.all()
-    return render(request, "users/group_list.html", {
+    return render(request, "users/group_view.html", {
         "groups": joined,
         "member": member,
     })
@@ -71,7 +71,7 @@ def group_create(request):
             group = form.save()
             joined = Joining.objects.create(joined_group=group)
             member.joined_group.add(joined)
-            return HttpResponseRedirect(reverse("users:group"))
+            return HttpResponseRedirect(reverse("users:group_view"))
     else:
         form = GroupCreationForm()
 
@@ -81,3 +81,12 @@ def group_create(request):
 
 def group_page(request):
     pass
+
+def join_group(request):
+    member = Member.objects.get(member_user=request.user)
+    if request.method == "POST":
+        code = request.POST["group_code"]
+        group = Group.objects.get(group_code=code)
+        joined = Joining.objects.get(joined_group=group)
+        member.joined_group.add(joined)
+        return HttpResponseRedirect(reverse("users:group_view"))

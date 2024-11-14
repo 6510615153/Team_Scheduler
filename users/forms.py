@@ -14,3 +14,8 @@ class GroupCreationForm(forms.ModelForm):
     class Meta:
         model = Group
         fields = ['group_code', 'group_name']
+        
+class GroupJoinForm(forms.ModelForm):
+    class Meta:
+        model = Group
+        fields = ['group_code']

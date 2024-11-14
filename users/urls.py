@@ -9,7 +9,9 @@ urlpatterns = [
     path('logout', views.logout_view, name='logout'),
     path('register', views.register_view, name='register'),
 
-    path('group', views.group_view, name='group'),
+    path('group_view', views.group_view, name='group_view'),
     path('group_create', views.group_create, name='group_create'),
     path('group_page', views.group_page, name='group_page'),
+
+    path('join', views.join_group, name='join_group'),
 ]
