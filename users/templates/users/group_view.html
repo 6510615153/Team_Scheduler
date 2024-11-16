@@ -131,10 +131,10 @@
                 </tr>
             </thead>
             <tbody>
-                {% for group in groups %}
+                {% for group, code in group_dict.items %}
                     <tr>
                         <td>{{ forloop.counter }}</td>
-                        <td>{{ group.joined_group }}</td>
+                        <td><a href="{% url 'event:calendar_group' code %}">{{ group.joined_group }}</a></td>
                     </tr>
                 {% empty %}
                     <tr>

@@ -55,12 +55,18 @@ def register_view(request):
     })
 
 def group_view(request):
-    groups = Group.objects.all()
     member = Member.objects.get(member_user=request.user)
     joined = member.joined_group.all()
+    groups = Group.objects.filter(join__in=member.joined_group.all())
+    group_codes = groups.values_list('group_code', flat=True)
+    group_dict = dict(zip(joined, group_codes))
+    print(joined)
+    print(group_codes)
+    print(dict(zip(joined, group_codes)))
     return render(request, "users/group_view.html", {
         "groups": joined,
         "member": member,
+        "group_dict": group_dict,
     })
 
 def group_create(request):

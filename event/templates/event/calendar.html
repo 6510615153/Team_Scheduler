@@ -79,5 +79,8 @@
         <a href="{% url 'event:calendar_change' year=prev_year month=prev_month %}">Previous Month</a> | 
         <a href="{% url 'event:calendar_change' year=next_year month=next_month %}">Next Month</a>
     </div>
+    <div class="change_date" style="left: 50%;">
+        <a href="{% url 'event:event_add' %}">Add Event</a> | 
+    </div>
 </body>
 </html>

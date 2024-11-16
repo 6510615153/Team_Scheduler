@@ -52,6 +52,8 @@
     <div class="container">
         <h1>Welcome, {{ request.user.username }}</h1>
         <a href="{% url 'users:group_view' %}" class="box_temp">See Group</a>
+        <br><br>
+        <a href="{% url 'event:calendar' %}" class="box_temp">Schedule</a>
     </div>
 </body>
 </html>
