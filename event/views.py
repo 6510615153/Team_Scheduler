@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 import calendar
 from datetime import datetime
 from .models import Event
+from .forms import EventCreationFormSingle
 
 # Create your views here.
 
@@ -65,4 +66,19 @@ def calendar_view(request, year = None, month = None):
         'month_days': days_in_month,
         'day_names': day_names, 
         'events': events_per_day,
+    })
+
+def event_add(request):
+    if request.method == "POST":
+        form = EventCreationFormSingle(request.POST)
+        if form.is_valid():
+            user = form.save()
+            return render(request, "event/calendar.html", {
+                "Message": "Yes"
+            })
+    else:
+        form = EventCreationFormSingle()
+
+    return render(request, "event/eventadd.html", {
+        "form": form,
     })
