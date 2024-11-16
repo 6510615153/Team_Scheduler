@@ -10,12 +10,18 @@ class Group(models.Model):
     
     def __str__(self):
         return f"{self.group_name}"
+    
+    def get_code(self):
+        return f"{self.group_code}"
 
 class Joining(models.Model):
     joined_group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="join")       # Required, so Group can see Members
                                                                                                  # Member can see groups
     def __str__(self):
         return f"{self.joined_group}"
+    
+    def get_code(self):
+        return f"{self.joined_group.group_code}"
     
 class Member(models.Model):
     member_code = models.CharField(max_length=20, blank=True)               # Exist if needed
