@@ -55,12 +55,14 @@
                     <div>
                         {% if day in events %}
                         <ul>
-                        {% for day, list in events.items %}
+                        {% for date, list in events.items %}
+                            {% if day == date %}
                             {% for event in list %}
                             <li style="list-style-type: none;">
                                 <a href="#">{{ event.start_time|time:"H:i" }} - {{ event.text }}</a>
                             </li>
                             {% endfor %}
+                            {% endif %}
                         {% endfor %}
                         </ul>
                         {% endif %}

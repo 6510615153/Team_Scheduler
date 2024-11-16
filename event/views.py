@@ -72,10 +72,12 @@ def event_add(request):
     if request.method == "POST":
         form = EventCreationFormSingle(request.POST)
         if form.is_valid():
-            user = form.save()
-            return render(request, "event/calendar.html", {
-                "Message": "Yes"
-            })
+            Event.objects.create(date=request.POST["date"], 
+                             start_time=request.POST["start_time"], 
+                             end_time=request.POST["end_time"], 
+                             text=request.POST["text"], 
+                             user=request.user)
+            return HttpResponseRedirect(reverse("event:calendar"))
     else:
         form = EventCreationFormSingle()
 
