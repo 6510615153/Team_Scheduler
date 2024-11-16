@@ -4,45 +4,89 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #e0e0e0; /* พื้นหลังสีเทาอ่อน */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #fff; /* กรอบสีขาว */
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* เงาลอย */
+            padding: 40px 50px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        h2 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #222;
+        }
+        label {
+            font-size: 16px;
+            color: #333;
+            display: block;
+            text-align: left;
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+            border-color: #333;
+        }
+        button {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            background-color: #333;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #555;
+        }
+    </style>
 </head>
-<style>
-.back_temp {
-    background-image:linear-gradient(rgb(231, 177, 160), rgb(180, 145, 131)); 
-    background-repeat: no-repeat;  min-height: 100vh;
-}
-.register2 {
-    margin-top: 180px;
-    border: 3px solid black;
-    background-color: rgb(184, 127, 104);
-    padding: 35px 70px;
-    display: inline-block;
-    border-radius: 10px;
-    text-decoration: none;
-    color:black;
-    text-align: center;
-    }
-</style>
-<body class="back_temp">
-    <center>
-    <div class="register2">
-    <h2>Register</h2>
-    <form method="post">
-        {% csrf_token %}
-        <label>Username</label>   
-        {{ form.username }}
-        <br><br>
-        <label>Email Address</label>
-        {{ form.email }}
-        <br><br>
-        <label>Enter Password</label>
-        {{ form.password1 }}
-        <br><br>
-        <label>Confirm Password</label>
-        {{ form.password2 }}
-        <br><br>
-        <button type="submit">Register</button>
-    </form>
+<body>
+    <div class="container">
+        <h2>Create a free account now</h2>
+        <form method="post">
+            {% csrf_token %}
+            <label for="username">Username</label>
+            {{ form.username }}
+            
+            <label for="email">Email Address</label>
+            {{ form.email }}
+            
+            <label for="password1">Enter Password</label>
+            {{ form.password1 }}
+            
+            <label for="password2">Confirm Password</label>
+            {{ form.password2 }}
+            
+            <button type="submit">Sign Up</button>
+        </form>
     </div>
-    </center>
 </body>
 </html>

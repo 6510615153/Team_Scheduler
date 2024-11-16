@@ -6,92 +6,124 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f9f9f9; /* พื้นหลังสีเทาอ่อน */
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #fff; /* กรอบสีขาว */
+            border-radius: 12px; /* มุมโค้งมน */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* เงาให้ดูเหมือนลอย */
+            padding: 40px;
+            max-width: 800px;
+            width: 90%;
+            text-align: center;
+        }
+        .container h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #222;
+        }
+        .container ol {
+            text-align: left;
+            font-size: 18px;
+            color: #555;
+            padding: 0;
+            margin: 20px 0 30px;
+            list-style: none;
+        }
+        .container ol li {
+            margin-bottom: 10px;
+        }
+        .container ol li::before {
+            content: "• ";
+            color: #333;
+            font-size: 20px;
+        }
+        .icon-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            color: #333;
+            background-color: #f1f1f1;
+            padding: 12px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .icon-link:hover {
+            background-color: #333;
+            color: #fff;
+        }
+        .icon-link img {
+            width: 30px;
+            height: 30px;
+        }
+        .footer {
+            margin-top: 40px;
+            font-size: 14px;
+            color: #999;
+        }
+        .return-link {
+            margin-top: 20px;
+            display: inline-block;
+            padding: 12px 24px;
+            border: 2px solid #333;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+            font-weight: 600;
+            background-color: #fff;
+            transition: all 0.3s ease;
+        }
+        .return-link:hover {
+            background-color: #333;
+            color: #fff;
+        }
+    </style>
 </head>
-<style>
-.back_temp {
-    background-image:linear-gradient(rgb(144, 172, 213), rgb(232, 234, 238)); 
-    background-repeat: no-repeat;  min-height: 100vh;
-}
-.border_temp {
-    min-height: 100vh;
-    border: 5px solid rgb(98, 100, 123); 
-    box-sizing: border-box;
-}
-.box_no_border {
-    background-color: rgb(57, 159, 203);
-    padding: 14px 28px;
-    cursor: pointer;
-    display: inline-block;
-    text-decoration: none;
-    color:black
-}
-.box_temp1 {
-    border: 3px solid black;
-    background-color: rgb(57, 159, 203);
-    padding: 14px 28px;
-    cursor: pointer;
-    display: inline-block;
-    border-radius: 10px;
-    text-decoration: none;
-    color:black
-}
-.box_temp1:hover {
-  background-color: rgb(48, 137, 175); /* Change color on hover */
-}
-.github_txt {
-    font-size: 22px; 
-    text-decoration: none;
-    color:white
-}
-.move_list_num {
-  list-style-position: inside;
-  padding-left: 0;
-}
-</style>
-<body class="back_temp">
-<div class="border_temp">
-<center>
-    
-    <div style="background-color: rgb(81, 141, 225); padding: 1px 0px;"><h1 style="font-size: 40px;">About</h1></div>
+<body>
+    <div class="container">
+        <h1>About</h1>
+        <h2>Team Members</h2>
+        <ol>
+            <li>Napat Wongkaew 6510615070</li>
+            <li>Natchanon Sanongkun 6510615088</li>
+            <li>Nitipong Kadsritalee 6510615153</li>
+            <li>Plowit Wongsoontorn 6510615237</li>
+            <li>Jakapat Sombatcharoenmuang 6510685024</li>
+        </ol>
 
-    <h2>Team Member</h2>
-    <ol class="move_list_num" style="font-size: 22px;">
-        <li>Napat Wongkaew 6510615070</li>
-        <li>Natchanon Sanongkun 6510615088</li>
-        <li>Nitipong Kadsritalee 6510615153</li>
-        <li>Plowit Wongsoontorn 6510615237</li>
-        <li>Jakapat Sombatcharoenmuang 6510685024</li>
-    </ol>
+        <a href="https://github.com/6510615153/Team_Scheduler" class="icon-link">
+            <img src="{% static 'images/github_black.png' %}" alt="GitHub"> GitHub Repository
+        </a>
+        <a href="https://drive.google.com/file/d/170asSz8yel1KxmYpJPXOXBcruvHteXMc/view?usp=sharing" class="icon-link">
+            <img src="{% static 'images/doc.png' %}" alt="Document"> Requirement Document
+        </a>
+        <a href="https://teamscheduletu.atlassian.net/" class="icon-link">
+            <img src="{% static 'images/jira.png' %}" alt="Jira"> Jira (Tracker)
+        </a>
 
-    <img src="{% static 'images/github_black.png' %}" alt="github_pic" style="width: 50px; height: 50px; position: relative; top: 15px;">
-    <h2 class="box_no_border">
-    <a href="https://github.com/6510615153/Team_Scheduler" class="github_txt" style="color: black;">
-    Github Repository
-    </a>
-    </h2>
-    <img src="{% static 'images/doc.png' %}" alt="github_pic" style="width: 50px; height: 50px; position: relative; top: 15px;">
-    <h2 class="box_no_border">
-    <a href="https://drive.google.com/file/d/170asSz8yel1KxmYpJPXOXBcruvHteXMc/view?usp=sharing" class="github_txt" style="color: black;">
-    Requirement Document
-    </a>
-    </h2>
-    <img src="{% static 'images/jira.png' %}" alt="github_pic" style="width: 50px; height: 50px; position: relative; top: 15px;">
-    <h2 class="box_no_border">
-    <a href="https://teamscheduletu.atlassian.net/" class="github_txt" style="color: black;">
-    Jira (Tracker)
-    </a>
-    </h2>
+        <div class="footer">
+            <p>This Web Application is a part of CN331 Software Engineering Course</p>
+            <p>Thammasat University Rangsit Campus</p>
+        </div>
 
-    <div style="margin-top: 200px;">
-    <h2>This Web Application is a part of CN331 Software Engineering Course</h2>
-    <h2>Thammasat University Rangsit Campus</h2>
+        <a href="{% url 'main_page:index_main' %}" class="return-link">Return to Main Page</a>
     </div>
-    <div style="margin-top: 60px;">
-    <h2>
-    <a href="{% url 'main_page:index_main' %}" class="box_temp1">Return to Main Page</a>
-    </h2>
-    </div>
-</center>
-</div>
 </body>
 </html>
