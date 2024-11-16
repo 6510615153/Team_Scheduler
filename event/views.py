@@ -38,7 +38,8 @@ def calendar_view(request, year = None, month = None):
     days_in_month = cal.monthdayscalendar(year, month)
 
     sorted_events = Event.objects.all().order_by("start_time")              # Sort event by time first
-    all_events = sorted_events.filter(date__year=year, date__month=month)   # Get events connected to this year and month
+    all_events = sorted_events.filter(date__year=year, date__month=month, user=request.user)   
+    # Get events connected to this year and month ||| AND ALSO user, added later after v0.2
 
     events_per_day = {}
     for event in all_events:

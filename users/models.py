@@ -20,7 +20,7 @@ class Joining(models.Model):
 class Member(models.Model):
     member_code = models.CharField(max_length=20, blank=True)               # Exist if needed
     member_name = models.CharField(max_length=20)                           # Name
-    member_user = models.OneToOneField(User, on_delete=models.CASCADE)      # Connect user to member
+    member_user = models.ForeignKey(User, on_delete=models.CASCADE)      # Connect user to member
     member_info = models.CharField(max_length=128, blank=True)              # Free space to write stuff
 
     joined_group = models.ManyToManyField(Joining, blank=True, related_name="groups")
