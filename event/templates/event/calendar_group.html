@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar</title>
+</head>
+<style>
+    table { width: 80%; 
+        border-collapse: collapse; 
+        table-layout: fixed;
+    }
+    th { 
+        background-color: #f4f4f4; 
+        border: 1px solid #ddd; 
+        padding: 8px 0px;
+        text-align: center; 
+        
+    }
+    td { 
+        height: 80px;
+        border: 1px solid #ddd; 
+        padding: 8px 7px;
+        text-align: right; 
+        vertical-align: text-top;
+        margin-right: 2px;
+    }
+    td.empty { 
+        background-color: #f9f9f9; 
+    }
+    .change_date {
+        top: 5%;
+        left: 65%;
+        position: fixed;
+    }
+</style>
+<body>
+<h1>{{ month_name }} {{ year }}</h1>
+
+<table>
+    <thead>
+        <tr>
+            {% for day_name in day_names %}
+            <th>{{ day_name }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for week in month_days %}
+        <tr>
+            {% for day in week %}
+            <td class="{% if day == 0 %}empty{% endif %}">
+                {% if day != 0 %}
+                {{ day }}
+                    <div>
+                        {% if day in events %}
+                        <ul>
+                        {% for date, list in events.items %}
+                            {% if day == date %}
+                            {% for event in list %}
+                            <li style="list-style-type: none;">
+                                <a href="#">{{ event.start_time|time:"H:i" }} - {{ event.text }}</a>
+                            </li>
+                            {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br><br>
+    <div class="change_date">
+        <a href="{% url 'event:calendar_change_group' code=group_code year=prev_year month=prev_month %}">Previous Month</a> | 
+        <a href="{% url 'event:calendar_change_group' code=group_code year=next_year month=next_month %}">Next Month</a>
+    </div>
+</body>
+</html>
