@@ -4,38 +4,100 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Group</title>
-</head>
-<style>
-    .box_temp {
-        margin-top: 180px;
-        border: 3px solid black;
-        background-color: rgb(184, 127, 104);
-        padding: 14px 28px;
-        display: inline-block;
-        border-radius: 10px;
-        text-decoration: none;
-        color:black;
-        text-align: center;
-        font-size: 24px;
-    }
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #e0e0e0; /* พื้นหลังสีเทาอ่อน */
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* เงาลอย */
+            padding: 50px;
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            position: relative; /* สำหรับจัดตำแหน่งปุ่ม Back */
+        }
+        h2 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #222;
+        }
+        form {
+            margin-top: 20px;
+        }
+        label {
+            font-size: 18px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            outline: none;
+        }
+        button {
+            background-color: #333;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #555;
+        }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px; /* ย้ายปุ่ม Back ไปมุมซ้ายบน */
+            background-color: #007bff; /* สีฟ้า */
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
     </style>
+</head>
 <body>
-    <center>
-        <div>
-        <h2>Create New Group</h2>
+    <div class="container">
+        <a href="{% url 'users:group_view' %}" class="back-button">Back</a>
+        <h2>Create New Team</h2>
         <form method="post">
             {% csrf_token %}
-            <label>Group Code</label>   
+            <label>Group Code</label>
             {{ form.group_code }}
             <br><br>
             <label>Group Name</label>
             {{ form.group_name }}
+            <br><br>
             <button type="submit">Register</button>
         </form>
-        </div>
-
-
-        <a href="{% url 'users:group_view' %}" class="box_temp">Back to Group List</a>
-    </center>
+    </div>
 </body>
 </html>
