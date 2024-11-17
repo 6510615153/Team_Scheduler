@@ -7,6 +7,7 @@ from .models import Event
 from .forms import EventCreationFormSingle
 from users.models import Member, Joining, Group
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 
 # Create your views here.
 
@@ -125,17 +126,19 @@ def calendar_view_group(request, code, year = None, month = None):
     sorted_events = Event.objects.all().order_by("start_time")              # Sort event by time first
     all_events = sorted_events.filter(date__year=year, 
                                       date__month=month,)
-
+    
     events_per_day = {}
     for event in all_events:
         day = event.date.day                    # get day of event date
         if day not in events_per_day:           # if this day isn't already in the list, 
             events_per_day[day] = []            # create list for that day
-        if current_join == member_join:
-            events_per_day[day].append(event)       # add event IF member is a part of group
 
-    # Force Sunday to start first
-    # Wouldn't have to do this if setfirstweek() actually work
+        try:
+            joined_group = event.member.joined_group.get(joined_group=current_group)    
+            events_per_day[day].append(event) 
+        except ObjectDoesNotExist:
+            pass
+
     day_names = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
     return render(request, 'event/calendar_group.html', {      
