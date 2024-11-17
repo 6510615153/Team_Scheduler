@@ -115,7 +115,6 @@ def calendar_view_group(request, code, year = None, month = None):
 
     current_member = Member.objects.get(member_user=request.user)
     member_get_joined = current_member.joined_group.all()
-    print(member_get_joined)
     if not member_get_joined.exists():
         member_join = Member.objects.get(member_user=request.user)
     else:
