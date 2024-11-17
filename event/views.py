@@ -10,11 +10,6 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
-def index(request):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("users:login"))
-    return render(request, "users/index.html")
-
 @login_required
 def calendar_view(request, year = None, month = None):
     if year is None or month is None:
