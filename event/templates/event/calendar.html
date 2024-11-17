@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f3f4f6;
+            color: rgb(77, 76, 79);
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin: 20px 0;
+            color: #8B4513;
+        }
+
+        table {
+                width: 90%;
+                max-width: 900px;
+                margin: 0px auto; /* Adds spacing above and below the table */
+                border-collapse: collapse;
+                box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1); /* More pronounced shadow for depth */
+                border-radius: 9px;
+                overflow: hidden; /* Ensures rounded corners affect inner content */
+                text-align: center; /* Centers text inside cells */
+                table-layout: fixed;
+        }
+
+        th{
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+            background-color: #8B4513;
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: right;
+            height: 80px;
+            vertical-align: top;
+            font-size: 0.9rem;
+            background-color: #FDF5E6;
+        }
+
+        td.empty {
+            background-color: #edd9b2;
+        }
+
+        .change_date {
+            margin: 1px auto;
+        }
+
+        .change_date a {
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #8B4513;
+            color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .change_date a:hover {
+            background-color: #67320c;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+<h1>{{ month_name }} {{ year }}</h1>
+
+<table>
+    <thead>
+        <tr>
+            {% for day_name in day_names %}
+            <th>{{ day_name }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for week in month_days %}
+        <tr>
+            {% for day in week %}
+            <td class="{% if day == 0 %}empty{% endif %}">
+                {% if day != 0 %}
+                {{ day }}
+                    <div>
+                        {% if day in events %}
+                        <ul>
+                        {% for date, list in events.items %}
+                            {% if day == date %}
+                            {% for event in list %}
+                            <li style="list-style-type: none;">
+                                <a href="#">{{ event.start_time|time:"H:i" }} - {{ event.text }}</a>
+                            </li>
+                            {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br><br>
+    <div class="change_date">
+        <a href="{% url 'event:calendar_change' year=prev_year month=prev_month %}">Previous Month</a> | 
+        <a href="{% url 'event:calendar_change' year=next_year month=next_month %}">Next Month</a>
+    </div>
+    <br><br>
+    <div class="change_date" style="left: 50%;">
+        <a href="{% url 'event:event_add' %}">Add Event</a>
+    </div>
+</body>
+</html>
