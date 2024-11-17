@@ -54,6 +54,7 @@ def register_view(request):
         "Message" : "Register your account to gain access.",
     })
 
+@login_required
 def group_view(request):
     member = Member.objects.get(member_user=request.user)
     joined = member.joined_group.all()
@@ -69,6 +70,7 @@ def group_view(request):
         "group_dict": group_dict,
     })
 
+@login_required
 def group_create(request):
     member = Member.objects.get(member_user=request.user)
     if request.method == "POST":
@@ -88,6 +90,7 @@ def group_create(request):
 def group_page(request):
     pass
 
+@login_required
 def join_group(request):
     member = Member.objects.get(member_user=request.user)
     if request.method == "POST":
