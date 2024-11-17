@@ -6,14 +6,11 @@ from datetime import datetime
 from .models import Event
 from .forms import EventCreationFormSingle
 from users.models import Member, Joining, Group
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
-def index(request):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("users:login"))
-    return render(request, "users/index.html")
-
+@login_required
 def calendar_view(request, year = None, month = None):
     if year is None or month is None:
         day = datetime.today()
@@ -67,6 +64,7 @@ def calendar_view(request, year = None, month = None):
         'events': events_per_day,
     })
 
+
 def event_add(request):
     if request.method == "POST":
         form = EventCreationFormSingle(request.POST)
@@ -85,6 +83,7 @@ def event_add(request):
         "form": form,
     })
 
+@login_required
 def calendar_view_group(request, code, year = None, month = None):
     if year is None or month is None:
         day = datetime.today()
@@ -116,7 +115,6 @@ def calendar_view_group(request, code, year = None, month = None):
 
     current_member = Member.objects.get(member_user=request.user)
     member_get_joined = current_member.joined_group.all()
-    print(member_get_joined)
     if not member_get_joined.exists():
         member_join = Member.objects.get(member_user=request.user)
     else:
