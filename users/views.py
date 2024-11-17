@@ -61,9 +61,6 @@ def group_view(request):
     groups = Group.objects.filter(join__in=member.joined_group.all())
     group_codes = groups.values_list('group_code', flat=True)
     group_dict = dict(zip(joined, group_codes))
-    print(joined)
-    print(group_codes)
-    print(dict(zip(joined, group_codes)))
     return render(request, "users/group_view.html", {
         "groups": joined,
         "member": member,
@@ -87,8 +84,8 @@ def group_create(request):
         "form": form,
     })
 
-def group_page(request):
-    pass
+# def group_page(request):
+#     pass
 
 @login_required
 def join_group(request):
