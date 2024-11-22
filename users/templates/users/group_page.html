@@ -23,6 +23,10 @@
     <h2>Code : {{code}} Maybe add a button to click -> copy to clipboard?</h2>
 
     <a href="{% url 'event:calendar_group' code %}">See Calendar</a>
+    <br>
+    <br>
+    <a href="{% url 'users:leave_group' code %}">Leave Group</a>
+
 
 </body>
 </html>
