@@ -75,7 +75,8 @@ def event_add(request):
                              end_time=request.POST["end_time"], 
                              text=request.POST["text"], 
                              user=request.user,
-                             member=Member.objects.get(member_user=request.user),)
+                             member=Member.objects.get(member_user=request.user),
+                             importance=request.POST["importance"],)
             return HttpResponseRedirect(reverse("event:calendar"))
     else:
         form = EventCreationFormSingle()
@@ -162,4 +163,5 @@ def see_event_detail(request, event_id):
         "end": current_event.end_time,
         "text": current_event.text,
         "owner": current_event.member,
+        "current_event": current_event
     })
