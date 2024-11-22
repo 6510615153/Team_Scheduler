@@ -13,4 +13,5 @@ urlpatterns = [
     path('group_create', views.group_create, name='group_create'),
 
     path('join', views.join_group, name='join_group'),
+    path('group_view/<str:code>', views.see_group_page, name='see_group')
 ]

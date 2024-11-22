@@ -30,13 +30,6 @@ class Member(models.Model):
     member_info = models.CharField(max_length=128, blank=True)              # Free space to write stuff
 
     joined_group = models.ManyToManyField(Joining, blank=True, related_name="groups")
-    
-    # To see how many group you've joined
-    # the schedule table of another person
-    # REQUIRE schedule models
-
-    # time_table = models.............
-    # schedule = models...................
 
     def __str__(self):
         return f"{self.member_code} : {self.member_user}"

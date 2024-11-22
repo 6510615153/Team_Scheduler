@@ -84,9 +84,6 @@ def group_create(request):
         "form": form,
     })
 
-# def group_page(request):
-#     pass
-
 @login_required
 def join_group(request):
     member = Member.objects.get(member_user=request.user)
@@ -96,3 +93,21 @@ def join_group(request):
         joined = Joining.objects.get(joined_group=group)
         member.joined_group.add(joined)
         return HttpResponseRedirect(reverse("users:group_view"))
+    
+@login_required
+def see_group_page(request, code):
+    current_group = Group.objects.get(group_code=code)
+    joined = Joining.objects.get(
+        joined_group=current_group
+    )
+    member_joined = Member.objects.filter(joined_group=joined)
+
+    total_joined = member_joined.count()
+
+    return render(request, 'users/group_page.html', {     
+        "group": current_group,
+        "code": current_group.group_code,
+        "name": current_group.group_name,
+        "slot": current_group.group_slot,
+        "total_member": total_joined,
+    })
