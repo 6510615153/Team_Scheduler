@@ -13,4 +13,6 @@ urlpatterns = [
     path('<str:code>/calendar/<int:year>/<int:month>/', views.calendar_view_group, name='calendar_change_group'),
 
     path('calendar/<int:event_id>/', views.see_event_detail, name='event_detail'),
+
+    path('calendar/create_pdf/', views.calendar_to_pdf, name='calendar_pdf'),
 ]
