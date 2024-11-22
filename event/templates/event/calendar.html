@@ -102,7 +102,7 @@
                             {% if day == date %}
                             {% for event in list %}
                             <li style="list-style-type: none;">
-                                <a href="#">{{ event.start_time|time:"H:i" }} - {{ event.text }}</a>
+                                <a href="{% url 'event:event_detail' event.id %}">{{ event.start_time|time:"H:i" }} - {{ event.text }}</a>
                             </li>
                             {% endfor %}
                             {% endif %}
