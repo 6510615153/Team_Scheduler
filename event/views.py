@@ -121,8 +121,6 @@ def calendar_view_group(request, code, year = None, month = None):
     else:
         member_join = member_get_joined.get(joined_group=current_group)
 
-    current_join = Joining.objects.get(joined_group=current_group)
-
     sorted_events = Event.objects.all().order_by("start_time")              # Sort event by time first
     all_events = sorted_events.filter(date__year=year, 
                                       date__month=month,)
@@ -134,7 +132,7 @@ def calendar_view_group(request, code, year = None, month = None):
             events_per_day[day] = []            # create list for that day
 
         try:
-            joined_group = event.member.joined_group.get(joined_group=current_group)    
+            joined_group = event.member.joined_group.first()
             events_per_day[day].append(event) 
         except ObjectDoesNotExist:
             pass

@@ -15,8 +15,14 @@ class Group(models.Model):
         return f"{self.group_code}"
 
 class Joining(models.Model):
+    ranks_list = [
+        ("owner", "Owner"),
+        ("moderator", "Moderator"),
+        ("member", "Member"),
+    ]
     joined_group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="join")       # Required, so Group can see Members
-                                                                                                 # Member can see groups
+    joined_rank = models.CharField(choices=ranks_list, default="member", max_length=10)
+                                                                                                
     def __str__(self):
         return f"{self.joined_group}"
     
