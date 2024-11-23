@@ -94,6 +94,7 @@ class EventTestCase(TestCase):
 
     def test_form_is_gone_on_page_enter(self):
         """request isn't POST"""
+        self.client.force_login(self.user1)
         response = self.client.get(reverse('event:event_add'))
         
         self.assertEqual(response.status_code, 200)

@@ -50,6 +50,7 @@ class EventTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_working_pdf(self):
+        """If PDF is created, response content type should be PDF, and 'calendar.pdf' should be in Content-Disposition section"""
         self.client.force_login(self.user1)
 
         response = self.client.get(reverse('event:calendar_pdf'))
@@ -57,3 +58,15 @@ class EventTestCase(TestCase):
         self.assertEqual(response['Content-Type'], 'application/pdf')
 
         self.assertIn('calendar.pdf', response['Content-Disposition'])
+
+    def test_event_delete_success(self):
+        """Event is successfully deleted after deleting. (== None) and REDIRECT SUCCESS"""
+        self.client.force_login(self.user1)
+
+        response = self.client.get(reverse('event:event_delete', args=(self.event1.id, )))
+
+        self.assertEqual(Event.objects.filter(pk=1).first(), None)
+
+        self.assertEqual(response.status_code, 302)
+
+        

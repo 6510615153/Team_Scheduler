@@ -85,7 +85,7 @@
             <h2>Owner:</h2>
             <p>{{ owner }}</p>
         </div>
-
+        
         <div class="detail">
             <h2>Date:</h2>
             <p>{{ date }}</p>
@@ -113,5 +113,7 @@
 
         <a href="{% url 'event:calendar' %}" class="btn-back">Back to Calendar</a>
     </div>
+    <h2><a href="{% url 'event:event_delete' current_event.id %}">Delete Event</a></h2>
+
 </body>
 </html>
