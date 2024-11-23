@@ -3,21 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event</title>
+    <title>Event Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(-45deg, #d0f0fd, #e6f7ff, #cce7f5, #b3d9f7);
+            background-size: 400% 400%;
+            animation: gradientMove 10s ease infinite;
+            color: #4a4a4a;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #f0faff;
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #006699;
+        }
+
+        h2 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #005b8a;
+            text-align: left;
+        }
+
+        .detail {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .btn-back {
+            display: inline-block;
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 12px 20px;
+            margin-top: 20px;
+            background-color: #66b2ff;
+            color: white;
+            border-radius: 10px;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .btn-back:hover {
+            background-color: #0059b3;
+            transform: scale(1.05);
+        }
+    </style>
 </head>
 <body>
-    <h1>Event Details</h1>
+    <div class="container">
+        <h1>Event Details</h1>
 
-    <h2>Owner {{owner}}</h2>
+        <div class="detail">
+            <h2>Owner:</h2>
+            <p>{{ owner }}</p>
+        </div>
 
-    <h2>Date : {{date}}</h2>
-    <h2>Start Time : {{date}}</h2>
-    <h2>End Time : {{date}}</h2>
-    <br>
-    <h2>Message : {{text}}</h2>
-    <br>
-    <h2>Importance : {{current_event.get_importance_display}}</h2>
-    
+        <div class="detail">
+            <h2>Date:</h2>
+            <p>{{ date }}</p>
+        </div>
 
+        <div class="detail">
+            <h2>Start Time:</h2>
+            <p>{{ start_time }}</p>
+        </div>
+
+        <div class="detail">
+            <h2>End Time:</h2>
+            <p>{{ end_time }}</p>
+        </div>
+
+        <div class="detail">
+            <h2>Message:</h2>
+            <p>{{ text }}</p>
+        </div>
+
+        <div class="detail">
+            <h2>Importance:</h2>
+            <p>{{ current_event.get_importance_display }}</p>
+        </div>
+
+        <a href="{% url 'event:calendar' %}" class="btn-back">Back to Calendar</a>
+    </div>
 </body>
 </html>

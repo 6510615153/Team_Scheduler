@@ -9,7 +9,7 @@
         body {
             margin: 0;
             font-family: 'Inter', sans-serif;
-            background-color: #e0e0e0;
+            background: linear-gradient(to bottom, #a6d8f7, #66b3e5); /* พื้นหลังฟ้าพาสเทลที่มีการไล่ระดับ */
             color: #333;
             display: flex;
             justify-content: center;
@@ -17,105 +17,155 @@
             min-height: 100vh;
             padding: 20px;
         }
+
         .container {
-            background-color: #fff;
-            border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            background-color: rgba(255, 255, 255, 0.9); /* พื้นหลังโปร่งแสง */
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             padding: 50px;
             text-align: center;
-            max-width: 800px;
-            width: 90%;
+            max-width: 800px; /* ลดขนาดให้เล็กลง */
+            width: 100%;
             position: relative;
-            min-height: 600px; /* เพิ่มความสูงของกรอบ */
+            min-height: 550px;
+            transition: transform 0.5s ease, box-shadow 0.3s ease;
         }
+
+        .container:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.3);
+        }
+
         h2 {
-            font-size: 32px;
+            font-size: 42px;
             font-weight: 600;
-            margin-bottom: 20px;
-            color: #222;
+            margin-bottom: 30px;
+            color: #2a4d69;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
+            transition: all 0.3s ease;
         }
+
         table, th, td {
-            border: 1px solid #ddd;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
+
         th, td {
-            padding: 10px;
-            text-align: left;
+            padding: 20px;
+            text-align: center;
             font-size: 18px;
+            border-radius: 10px;
         }
+
         th {
-            background-color: #f2f2f2;
+            background-color: #66b3e5;
+            color: #fff;
+            font-weight: 600;
         }
+
+        tr:nth-child(even) {
+            background-color: #e6f7ff;
+        }
+
+        tr:hover {
+            background-color: #80c7f5;
+            transition: background-color 0.3s ease;
+        }
+
         .form-section {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
             align-items: center;
             position: absolute;
             bottom: 20px;
-            width: calc(100% - 100px); /* จัดตำแหน่งในกรอบ */
+            width: 100%;
         }
+
         .form-section form {
             display: flex;
             align-items: center;
+            width: 75%;
+            justify-content: flex-start;
         }
+
         input[type="text"] {
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
+            padding: 15px;
+            font-size: 18px;
+            border: 2px solid #66b3e5;
             border-radius: 8px;
             margin-left: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 220px;
+            transition: border-color 0.3s ease;
         }
+
+        input[type="text"]:focus {
+            border-color: #0099cc;
+            outline: none;
+        }
+
         button {
-            background-color: #007bff;
+            background-color: #4fb3f0;
             color: #fff;
-            padding: 10px 20px;
+            padding: 15px 30px;
             border: none;
-            border-radius: 8px;
-            font-size: 16px;
+            border-radius: 30px;
+            font-size: 18px;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
         }
+
         button:hover {
-            background-color: #0056b3;
+            background-color: #66b3e5;
+            transform: translateY(-3px) scale(1.05);
+            opacity: 0.9;
         }
+
         .create-button {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            background-color: #007bff;
+            background-color: #4fb3f0; /* ทำให้ปุ่มสีฟ้าเหมือนปุ่มอื่นๆ */
             color: #fff;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-size: 16px;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 18px;
             font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
             text-decoration: none;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin-left: -35px; /* ขยับปุ่มมาทางซ้าย */
         }
+
         .create-button:hover {
-            background-color: #0056b3;
+            background-color: #66b3e5;
+            transform: translateY(-3px) scale(1.05);
+            opacity: 0.9;
         }
+
         .back-button {
             position: absolute;
             top: 20px;
             left: 20px;
-            background-color: #007bff;
+            background-color: #e74c3c; /* เปลี่ยนเป็นสีแดง */
             color: #fff;
-            padding: 10px 15px;
-            border-radius: 8px;
-            font-size: 16px;
+            padding: 12px 18px;
+            border-radius: 30px;
+            font-size: 18px;
             font-weight: 600;
             text-decoration: none;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s ease;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, transform 0.3s ease;
         }
+
         .back-button:hover {
-            background-color: #0056b3;
+            background-color: #c0392b;
+            transform: translateY(-3px) scale(1.05);
         }
     </style>
 </head>
@@ -134,7 +184,7 @@
                 {% for group, code in group_dict.items %}
                     <tr>
                         <td>{{ forloop.counter }}</td>
-                        <td><a href="{% url 'users:see_group' code %}">{{ group.joined_group }}</a></td>
+                        <td><a href="{% url 'users:see_group' code %}" style="color: #007bff; text-decoration: none; font-weight: 600;">{{ group.joined_group }}</a></td>
                     </tr>
                 {% empty %}
                     <tr>
