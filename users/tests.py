@@ -10,7 +10,7 @@ from django.contrib.auth import authenticate, login
 class UsersTestCase(TestCase):
 
     def setUp(self):
-        self.user = User.objects.create(username='testuser1', password='A69452048')
+        self.user = User.objects.create_user(username='testuser1', password='A69452048')
 
         self.member = Member.objects.get(member_user=self.user,)
 
@@ -73,7 +73,7 @@ class UsersTestCase(TestCase):
 
         response = self.client.post(reverse('users:login'), credentials)
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
 
     # def test_redirect_after_login(self):
     #     """Already logged in will redirect"""

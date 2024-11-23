@@ -152,5 +152,11 @@
             <a href="{% url 'users:group_create' %}" class="create-button">Create Team</a>
         </div>
     </div>
+
+    {% if message %}
+    <script>
+        alert("{{ message }}");
+    </script>
+    {% endif %}
 </body>
 </html>

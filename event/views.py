@@ -60,18 +60,18 @@ def calendar_view(request, year = None, month = None):
     # Wouldn't have to do this if setfirstweek() actually work
     day_names = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
-    packed_context = {      
-        'year': year,
-        'month': month,
-        'prev_month': prev_month,
-        'next_month': next_month,
-        'prev_year': prev_year,
-        'next_year': next_year,
-        'month_name': calendar.month_name[month],
-        'month_days': days_in_month,
-        'day_names': day_names, 
-        'events': events_per_day,
-    }
+    # packed_context = {      
+    #     'year': year,
+    #     'month': month,
+    #     'prev_month': prev_month,
+    #     'next_month': next_month,
+    #     'prev_year': prev_year,
+    #     'next_year': next_year,
+    #     'month_name': calendar.month_name[month],
+    #     'month_days': days_in_month,
+    #     'day_names': day_names, 
+    #     'events': events_per_day,
+    # }
 
     return render(request, 'event/calendar.html', {      
         'year': year,
@@ -84,7 +84,7 @@ def calendar_view(request, year = None, month = None):
         'month_days': days_in_month,
         'day_names': day_names, 
         'events': events_per_day,
-        'packed_context': packed_context
+        # 'packed_context': packed_context
     })
 
 
@@ -137,13 +137,7 @@ def calendar_view_group(request, code, year = None, month = None):
 
     current_group = Group.objects.get(group_code=code)
 
-    current_member = Member.objects.get(member_user=request.user)
-    member_get_joined = current_member.joined_group.all()
-    if not member_get_joined.exists():
-        member_join = Member.objects.get(member_user=request.user)
-    else:
-        member_join = member_get_joined.get(joined_group=current_group)
-
+    current_join = Joining.objects.filter(joined_group = current_group).first().get_code()
     sorted_events = Event.objects.all().order_by("start_time")              # Sort event by time first
     all_events = sorted_events.filter(date__year=year, 
                                       date__month=month,)
@@ -154,11 +148,14 @@ def calendar_view_group(request, code, year = None, month = None):
         if day not in events_per_day:           # if this day isn't already in the list, 
             events_per_day[day] = []            # create list for that day
 
-        try:
-            joined_group = event.member.joined_group.first()
-            events_per_day[day].append(event) 
-        except ObjectDoesNotExist:
-            pass
+        current_event = event.member.joined_group.all()
+        # print(event.member)
+        # print(current_join)
+        for item in current_event:
+            #print(item.get_code())
+            if item.get_code() == current_join:
+                events_per_day[day].append(event) 
+
 
     day_names = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
