@@ -87,7 +87,7 @@ def calendar_view(request, year = None, month = None):
         # 'packed_context': packed_context
     })
 
-
+@login_required
 def event_add(request):
     if request.method == "POST":
         form = EventCreationFormSingle(request.POST)
@@ -173,8 +173,11 @@ def calendar_view_group(request, code, year = None, month = None):
         'group_code': code
     })
 
+@login_required
 def see_event_detail(request, event_id):
     current_event = Event.objects.get(pk=event_id)
+
+    previous_url = request.META.get('HTTP_REFERER', '/calendar/')
 
     return render(request, 'event/event_page.html', {     
         "date": current_event.date,
@@ -182,11 +185,43 @@ def see_event_detail(request, event_id):
         "end": current_event.end_time,
         "text": current_event.text,
         "owner": current_event.member,
-        "current_event": current_event
+        "current_event": current_event,
+        "prev_url": previous_url,
     })
+
+@login_required
+def event_delete(request, event_id):
+    current_event = Event.objects.get(pk=event_id)
+
+    current_event.delete()
+
+    return HttpResponseRedirect(reverse("event:calendar"))
+
+# @login_required
+# def event_edit(request, event_id):
+#     current_event = Event.objects.get(pk=event_id)
+#     if request.method == "POST":
+#         form = EventCreationFormSingle(request.POST)
+#         if form.is_valid():
+#             Event.objects.create(date=request.POST["date"], 
+#                              start_time=request.POST["start_time"], 
+#                              end_time=request.POST["end_time"], 
+#                              text=request.POST["text"], 
+#                              user=request.user,
+#                              member=Member.objects.get(member_user=request.user),
+#                              importance=request.POST["importance"],)
+#             return HttpResponseRedirect(reverse("event:calendar"))
+#     else:
+#         form = EventCreationFormSingle()
+
+#     return render(request, "event/eventadd.html", {
+#         "form": form,
+#     })
+
 
 #########################################################################
 
+@login_required
 def calendar_to_pdf(request):
     day = datetime.today()
     year = day.year

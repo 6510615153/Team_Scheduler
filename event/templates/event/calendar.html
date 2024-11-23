@@ -26,7 +26,7 @@
 
         table {
             width: 90%;
-            max-width: 900px;
+            max-width: 1200px;
             margin: 20px auto;
             border-collapse: collapse;
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
@@ -37,6 +37,7 @@
         }
 
         th {
+            max-width: 15%;
             padding: 15px;
             border: 1px solid #ddd;
             text-align: center;
@@ -47,6 +48,7 @@
         }
 
         td {
+            width: 10%;
             padding: 10px;
             border: 1px solid #ddd;
             text-align: right;
@@ -131,6 +133,31 @@
             background-color: #67320c;
             transform: scale(1.05);
         }
+
+        .event_box {
+            text-decoration: none;
+            text-underline-offset: 4px;
+            color: white;
+            border-radius: 5px;
+            padding: 3px;
+        }
+
+        .print_pdf_button {
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #8B4513;
+            color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .print_pdf_button:hover {
+            background-color: #67320c;
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
@@ -154,18 +181,30 @@
                         {{ day }}
                         <div>
                             {% if day in events %}
-                            <ul>
-                            {% for date, list in events.items %}
-                                {% if day == date %}
-                                {% for event in list %}
-                                <li style="list-style-type: none;">
-                                    <a href="#">{{ event.start_time|time:"H:i" }} - {{ event.text }}</a>
-                                </li>
-                                {% endfor %}
+                        <ul>
+                        {% for date, list in events.items %}
+                            {% if day == date %}
+                            {% for event in list %}
+                            <li style="list-style-type: none;">
+                                {% if event.importance == "1" %}
+                                <div class="event_box" style="background-color: #8B4513;">
+                                {% elif event.importance == "2" %}
+                                <div class="event_box" style="background-color: #ca9026;">
+                                {% else %}
+                                <div class="event_box" style="background-color: #2686da;">
                                 {% endif %}
+                                <a class="event_box" href="{% url 'event:event_detail' event.id %}">
+                                    <u>{{ event.start_time|time:"H:i" }} - {{ event.end_time|time:"H:i" }}</u>
+                                <br> 
+                                {{ event.text }}
+                                </a>
+                                </div>
+                            </li>
                             {% endfor %}
-                            </ul>
                             {% endif %}
+                        {% endfor %}
+                        </ul>
+                        {% endif %}
                         </div>
                         {% endif %}
                     </td>
@@ -179,10 +218,25 @@
             <a href="{% url 'event:calendar_change' year=prev_year month=prev_month %}" class="change-month">⏪ Previous Month</a>
             <a href="{% url 'event:calendar_change' year=next_year month=next_month %}" class="change-month">Next Month ⏩</a>
         </div>
-
+        <br>
         <div class="change_date add_event">
             <a href="{% url 'event:event_add' %}">➕ Add Event</a>
         </div>
+        <br>
+        <div class="change_date add_event">
+            <a href="{% url 'users:dashboard' %}">Back</a>
+        </div>
+        <br>
+        <br>
+        <div>
+            <form method="POST" action="{% url 'event:calendar_pdf'%}">
+                {% csrf_token %}
+                <input type="text" type="hidden" name="packed_context" style="display: none;">
+                <button type="submit" class="print_pdf_button">Print PDF</button>
+            </form>
+        </div>
+        <br>
+        <br>
     </div>
 
     <script>

@@ -82,36 +82,31 @@
         <h1>Event Details</h1>
 
         <div class="detail">
-            <h2>Owner:</h2>
-            <p>{{ owner }}</p>
+            <h2>Owner: <div style="display: inline; position: absolute; left: 50%;">{{ owner }}</div></h2>
+        </div>
+        <div class="detail">
+            <h2>Date: <div style="display: inline; position: absolute; left: 50%;">{{ date }}</div></h2>
         </div>
 
         <div class="detail">
-            <h2>Date:</h2>
-            <p>{{ date }}</p>
+            <h2>Start Time: <div style="display: inline; position: absolute; left: 50%;">{{ start }}</div></h2>
         </div>
 
         <div class="detail">
-            <h2>Start Time:</h2>
-            <p>{{ start_time }}</p>
+            <h2>End Time: <div style="display: inline; position: absolute; left: 50%;">{{ end }}</div></h2>
         </div>
 
         <div class="detail">
-            <h2>End Time:</h2>
-            <p>{{ end_time }}</p>
+            <h2>Message: <div style="display: inline; position: absolute; left: 50%;">{{ text }}</div></h2>
         </div>
 
         <div class="detail">
-            <h2>Message:</h2>
-            <p>{{ text }}</p>
+            <h2>Importance: <div style="display: inline; position: absolute; left: 50%;">{{ current_event.get_importance_display }}</div></h2>
         </div>
 
-        <div class="detail">
-            <h2>Importance:</h2>
-            <p>{{ current_event.get_importance_display }}</p>
-        </div>
-
-        <a href="{% url 'event:calendar' %}" class="btn-back">Back to Calendar</a>
-    </div>
+        <a href="{{ prev_url }}" class="btn-back">Back to Calendar</a>
+        <br>
+        <a href="{% url 'event:event_delete' current_event.id %}" class="btn-back" style="background-color: #d93a3a;">Delete Event</a>
+</div>
 </body>
 </html>
