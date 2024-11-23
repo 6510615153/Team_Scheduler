@@ -18,6 +18,6 @@
     <br>
     <h2>Importance : {{current_event.get_importance_display}}</h2>
     
-
+    <h2><a href="{% url 'event:event_delete' current_event.id %}">Delete Event</a></h2>
 </body>
 </html>
