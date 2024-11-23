@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Pacifico&display=swap" rel="stylesheet">
     <style>
         /* พื้นฐาน */
         body {
@@ -18,7 +18,7 @@
             align-items: center;
             min-height: 100vh;
             overflow: hidden;
-            transition: opacity 0.5s ease-in-out; /* สำหรับจางหาย */
+            transition: opacity 0.5s ease-in-out;
         }
 
         @keyframes gradientShift {
@@ -52,25 +52,36 @@
 
         /* หัวข้อ */
         h1 {
-            font-size: 32px;
+            font-family: 'Pacifico', cursive;
+            font-size: 36px;
             font-weight: 700;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             color: #2a4d69;
             text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
+        p {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
         /* ปุ่ม */
-        .box_temp {
+        .box_temp, .logout-btn {
             display: inline-block;
             padding: 14px 24px;
             font-size: 18px;
             font-weight: 600;
             text-decoration: none;
             color: #fff;
-            background: linear-gradient(90deg, #0056b3, #007bff);
             border-radius: 50px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            margin: 10px 10px;
+        }
+
+        .box_temp {
+            background: linear-gradient(90deg, #0056b3, #007bff);
         }
 
         .box_temp:hover {
@@ -79,19 +90,8 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
 
-        /* ปุ่ม Logout */
         .logout-btn {
-            display: inline-block;
-            padding: 14px 24px;
-            font-size: 18px;
-            font-weight: 600;
-            text-decoration: none;
-            color: #fff;
             background: linear-gradient(90deg, #d9534f, #c9302c);
-            border-radius: 50px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-            margin-top: 20px; /* เพิ่มระยะห่างจากปุ่มที่อยู่ด้านบน */
         }
 
         .logout-btn:hover {
@@ -136,7 +136,7 @@
             }
 
             h1 {
-                font-size: 24px;
+                font-size: 28px;
             }
 
             .box_temp, .logout-btn {
@@ -153,8 +153,9 @@
 
     <div class="container">
         <h1>Welcome, {{ request.user.username }}</h1>
+        <p>Your personalized dashboard</p>
         <a href="{% url 'users:group_view' %}" class="box_temp" onclick="transitionPage(event)">See Group</a>
-        <a href="{% url 'users:logout' %}" class="logout-btn" onclick="transitionPage(event)">Logout</a> <!-- ปุ่ม Logout -->
+        <a href="{% url 'users:logout' %}" class="logout-btn" onclick="transitionPage(event)">Logout</a>
     </div>
 
     <script>
