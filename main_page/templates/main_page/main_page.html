@@ -9,7 +9,7 @@
         body {
             margin: 0;
             font-family: 'Inter', sans-serif;
-            background-color: #f3f3f3; /* สีพื้นหลังเทาอ่อน */
+            background: linear-gradient(135deg, #d8e9f5, #a7cde9); /* พื้นหลังไล่โทนสีฟ้า */
             color: #333;
             display: flex;
             justify-content: center;
@@ -17,40 +17,57 @@
             min-height: 100vh;
         }
         .floating-box {
-            background-color: #fff; /* สีขาวสะอาด */
-            border-radius: 12px; /* มุมโค้งมน */
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* เงาให้ดูเหมือนลอย */
-            padding: 40px;
-            width: 80%;
+            background-color: #ffffff; /* สีขาวสะอาด */
+            border-radius: 16px; /* มุมโค้งมนมากขึ้น */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* เงาเพิ่มมิติ */
+            padding: 50px;
+            width: 90%;
             max-width: 600px;
             text-align: center;
+            animation: float 3s ease-in-out infinite; /* ลูกเล่นลอยเบาๆ */
+        }
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
         }
         .floating-box h1 {
-            font-size: 36px;
+            font-size: 38px;
             font-weight: 600;
             margin: 0 0 20px;
-            color: #222;
+            color: #1f4f7f; /* สีฟ้าเข้ม */
         }
         .floating-box p {
             font-size: 18px;
-            color: #666;
+            color: #555;
             margin-bottom: 30px;
         }
         .button {
             display: inline-block;
-            padding: 12px 24px;
-            border: 2px solid #333;
-            border-radius: 8px;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 12px;
             text-decoration: none;
-            color: #333;
-            font-size: 16px;
+            color: #ffffff;
+            font-size: 18px;
             font-weight: 600;
-            background-color: #fff;
-            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #7cbbe6, #4a90d6); /* ปุ่มสีไล่โทนฟ้า */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .button:hover {
-            background-color: #333;
-            color: #fff;
+            transform: translateY(-5px); /* ขยับขึ้นเล็กน้อยเมื่อ hover */
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* เงาเพิ่มขึ้นเมื่อ hover */
+        }
+        .button:active {
+            transform: translateY(2px); /* ขยับลงเล็กน้อยเมื่อคลิก */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* เงาลดลงเมื่อคลิก */
+        }
+        .button + .button {
+            margin-top: 15px;
         }
     </style>
 </head>
@@ -58,8 +75,7 @@
     <div class="floating-box">
         <h1>Welcome to Team Schedule</h1>
         <p>Plan your tasks with simplicity and clarity.</p>
-        <a href="{% url 'main_page:about' %}" class="button">About us</a>
-        <br><br>
+        <a href="{% url 'main_page:about' %}" class="button">About Us</a>
         <a href="{% url 'users:dashboard' %}" class="button">Dashboard</a>
     </div>
 </body>
