@@ -6,57 +6,88 @@
     <title>Group List</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        /* พื้นฐาน */
         body {
             margin: 0;
             font-family: 'Inter', sans-serif;
-            background-color: #e0e0e0;
+            background: linear-gradient(135deg, #d4f1f9, #b2e4f4, #91d4f0); /* สีพาสเทล */
+            background-size: 300% 300%;
+            animation: gradientShift 10s infinite ease-in-out;
             color: #333;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
+            transition: opacity 0.5s ease; /* Transition สำหรับการเปลี่ยนหน้า */
         }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* กล่องหลัก */
         .container {
-            background-color: #fff;
-            border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.9); /* โปร่งใสเล็กน้อย */
+            backdrop-filter: blur(12px); /* เบลอพื้นหลัง */
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
             padding: 50px;
             text-align: center;
             max-width: 800px;
-            width: 90%;
+            width: 100%;
             position: relative;
-            min-height: 600px; /* เพิ่มความสูงของกรอบ */
+            overflow: hidden;
         }
+
+        /* หัวข้อ */
         h2 {
-            font-size: 32px;
-            font-weight: 600;
+            font-size: 36px;
+            font-weight: 700;
             margin-bottom: 20px;
-            color: #222;
+            color: #2a4d69;
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
         }
+
+        /* ตาราง */
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         table, th, td {
             border: 1px solid #ddd;
         }
         th, td {
-            padding: 10px;
-            text-align: left;
+            padding: 15px;
+            text-align: center;
             font-size: 18px;
         }
         th {
-            background-color: #f2f2f2;
+            background: linear-gradient(90deg, #7f7fd5, #86a8e7); /* เหมือนกับหน้า Dashboard */
+            color: #fff;
+            font-weight: 600;
+            border: none;
         }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #e6f7ff;
+            transition: background-color 0.3s ease;
+        }
+
+        /* ฟอร์มและปุ่ม */
         .form-section {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: absolute;
-            bottom: 20px;
-            width: calc(100% - 100px); /* จัดตำแหน่งในกรอบ */
+            margin-top: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
         }
         .form-section form {
             display: flex;
@@ -68,60 +99,68 @@
             border: 1px solid #ccc;
             border-radius: 8px;
             margin-left: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        button {
-            background-color: #007bff;
+
+        /* ปุ่ม */
+        button, .create-button {
+            background-color: #007bff; /* สไตล์ปุ่มเดียวกับหน้า Dashboard */
             color: #fff;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border: none;
-            border-radius: 8px;
+            border-radius: 30px; /* ทำให้ปุ่มกลม */
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
         }
-        button:hover {
+        
+        /* เอฟเฟกต์สำหรับปุ่ม */
+        button:hover, .create-button:hover {
             background-color: #0056b3;
+            transform: translateY(-3px) scale(1.05); /* ซูมและยกขึ้น */
+            opacity: 0.9; /* ลดความทึบ */
         }
+
         .create-button {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            background-color: #007bff;
-            color: #fff;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            text-decoration: none;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s ease;
+            background-color: #28a745;
         }
+
         .create-button:hover {
-            background-color: #0056b3;
+            background-color: #218838;
         }
+
+        /* ปุ่มย้อนกลับ */
         .back-button {
             position: absolute;
             top: 20px;
             left: 20px;
-            background-color: #007bff;
+            background-color: #dc3545;
             color: #fff;
             padding: 10px 15px;
-            border-radius: 8px;
+            border-radius: 30px; /* ทำให้ปุ่มย้อนกลับกลม */
             font-size: 16px;
             font-weight: 600;
             text-decoration: none;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.3s ease;
         }
         .back-button:hover {
-            background-color: #0056b3;
+            background-color: #c82333;
+            transform: translateY(-3px) scale(1.05); /* ซูมและยกขึ้น */
         }
+
+        /* Transition effect for page change */
+        .fade-out {
+            opacity: 0;
+            pointer-events: none; /* ปิดการใช้งาน event เพื่อป้องกันการคลิกระหว่าง transition */
+        }
+
     </style>
 </head>
 <body>
     <div class="container">
-        <a href="{% url 'users:dashboard' %}" class="back-button">Back</a>
+        <a href="{% url 'users:dashboard' %}" class="back-button" onclick="transitionPage(event)">Back</a>
         <h2>Team Schedule</h2>
         <table>
             <thead>
@@ -149,8 +188,20 @@
                 <button type="submit">Join Team</button>
                 <input type="text" name="group_code" placeholder="Enter Group Code" required>
             </form>
-            <a href="{% url 'users:group_create' %}" class="create-button">Create Team</a>
+            <a href="{% url 'users:group_create' %}" class="create-button" onclick="transitionPage(event)">Create Team</a>
         </div>
     </div>
+
+    <script>
+        // Transition เมื่อเปลี่ยนหน้า
+        function transitionPage(event) {
+            event.preventDefault();  // ป้องกันการคลิกทันที
+            const link = event.currentTarget.href;
+            document.body.classList.add('fade-out');  // เพิ่มคลาส fade-out
+            setTimeout(() => {
+                window.location.href = link;  // ไปยังหน้าถัดไปหลังจากการเปลี่ยนแปลง
+            }, 500);  // ระยะเวลาให้ fade-out เสร็จ
+        }
+    </script>
 </body>
 </html>
