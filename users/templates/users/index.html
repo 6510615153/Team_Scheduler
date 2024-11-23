@@ -9,53 +9,102 @@
         body {
             margin: 0;
             font-family: 'Inter', sans-serif;
-            background-color: #e0e0e0; /* พื้นหลังสีเทาเข้ม */
+            background: linear-gradient(-45deg, #eef7fd, #cce7f6, #b3daf0, #99d0ea);
+            background-size: 400% 400%;
+            animation: gradientMove 8s ease infinite;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            opacity: 1;
+            transition: opacity 0.5s ease; /*เพิ่ม transition */
         }
         .container {
-            background-color: #fff; /* กรอบสีขาว */
-            border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* เงาลอย */
+            background-color: #fff;
+            border-radius: 16px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
             padding: 40px 50px;
             text-align: center;
-            max-width: 400px;
+            max-width: 500px;
             width: 90%;
+            animation: fadeIn 0.8s ease;
         }
         h1 {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 600;
             margin-bottom: 30px;
-            color: #222;
+            color: #004d99;
         }
         .box_temp {
             display: inline-block;
-            padding: 12px 20px;
+            padding: 14px 24px;
             font-size: 18px;
             font-weight: 600;
             text-decoration: none;
             color: #fff;
-            background-color: #333;
-            border-radius: 8px;
+            background-color: #007acc;
+            border-radius: 12px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: background-color 0.3s ease, transform 0.2s ease;
+            margin: 10px 0;
         }
         .box_temp:hover {
-            background-color: #555;
-            transform: translateY(-2px); /* ยกปุ่มขึ้นเล็กน้อยเมื่อ hover */
+            background-color: #005f99;
+            transform: translateY(-3px);
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Welcome, {{ request.user.username }}</h1>
-        <a href="{% url 'users:group_view' %}" class="box_temp">See Group</a>
-        <br><br>
-        <a href="{% url 'event:calendar' %}" class="box_temp">Schedule</a>
-        <br><br>
-        <a href="{% url 'users:logout' %}" class="box_temp">Log Out</a>
+        <h1>Welcome, {{ request.user.username }} 🎉</h1>
+        <a href="{% url 'users:group_view' %}" class="box_temp" data-transition>👥 See Group</a>
+        <br>
+        <a href="{% url 'event:calendar' %}" class="box_temp" data-transition>📅 Schedule</a>
+        <br>
+        <a href="{% url 'users:logout' %}" class="box_temp" data-transition>🚪 Log Out</a>
     </div>
+
+    <script>
+        window.addEventListener('pageshow', (event) => {
+        if (event.persisted) {
+            document.body.style.opacity = '1';
+        }
+        });
+        // จัดการการคลิกและเพิ่มเอฟเฟกต์ fade-out
+        const links = document.querySelectorAll('[data-transition]');
+
+        links.forEach(link => {
+            link.addEventListener('click', function (event) {
+                event.preventDefault(); // หยุดการเปลี่ยนหน้าในทันที
+                document.body.style.opacity = '0'; // ทำให้หน้าจอค่อยๆจางหายไป
+
+                // เปลี่ยนหน้าเมื่อ transition เสร็จสิ้น
+                setTimeout(() => {
+                    window.location.href = this.href;
+                }, 500); // ระยะเวลาตรงกับ transition: opacity
+            });
+        });
+    </script>
 </body>
 </html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to bottom, #a6d8f7, #66b3e5); /* พื้นหลังฟ้าพาสเทลที่มีการไล่ระดับ */
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.9); /* พื้นหลังโปร่งแสง */
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 50px;
+            text-align: center;
+            max-width: 800px; /* ลดขนาดให้เล็กลง */
+            width: 100%;
+            position: relative;
+            min-height: 500px;
+            transition: transform 0.5s ease, box-shadow 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #2a4d69;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2a4d69;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .button {
+            background-color: #4fb3f0;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
+            text-decoration: none;
+            margin: 10px;
+            display: inline-block;
+        }
+
+        .button:hover {
+            background-color: #66b3e5;
+            transform: translateY(-3px) scale(1.05);
+            opacity: 0.9;
+        }
+
+        .copy-button {
+            background-color: #f1c40f; /* ปุ่มสำหรับการคัดลอกเป็นสีเหลือง */
+        }
+
+        .copy-button:hover {
+            background-color: #f39c12;
+        }
+
+        /* ปรับสีของปุ่ม Leave Group */
+        .leave-button {
+            background-color: #e74c3c; /* สีแดงสำหรับปุ่ม Leave Group */
+        }
+
+        .leave-button:hover {
+            background-color: #c0392b;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #e74c3c;
+            color: #fff;
+            padding: 12px 18px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #c0392b;
+            transform: translateY(-3px) scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{% url 'users:dashboard' %}" class="back-button">Back</a>
+        <h1>Event Details</h1>
+        <h2>Owner: {{ owner }}</h2>
+        <h2>Name: {{ name }}</h2>
+        <p>Total Members: {{ total_member }} / {{ slot }}</p>
+        <p>Code: <span id="event-code">{{ code }}</span> 
+            <button class="button copy-button" onclick="copyToClipboard()">Copy Code</button>
+        </p>
+        
+        <a href="{% url 'event:calendar_group' code %}" class="button">See Calendar</a>
+        <a href="{% url 'users:leave_group' code %}" class="button leave-button">Leave Group</a> <!-- เปลี่ยนเป็นคลาส leave-button -->
+    </div>
+
+    <script>
+        function copyToClipboard() {
+            var code = document.getElementById('event-code').innerText;
+            navigator.clipboard.writeText(code).then(function() {
+                alert('Event code copied to clipboard!');
+            }).catch(function(error) {
+                alert('Failed to copy the code: ' + error);
+            });
+        }
+    </script>
+</body>
+</html>
