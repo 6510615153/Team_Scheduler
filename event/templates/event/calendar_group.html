@@ -23,7 +23,7 @@
 
         table {
                 width: 90%;
-                max-width: 900px;
+                max-width: 1200px;
                 margin: 0px auto; /* Adds spacing above and below the table */
                 border-collapse: collapse;
                 box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1); /* More pronounced shadow for depth */
@@ -76,6 +76,16 @@
             background-color: #67320c;
             transform: scale(1.05);
         }
+
+        .event_box {
+            text-decoration: none;
+            text-underline-offset: 4px;
+            font-size: 1rem;
+            color: white;
+            border-radius: 5px;
+            padding-top: 3px;
+            padding-bottom: 3px;
+        }
     </style>
 <body>
 <h1>{{ month_name }} {{ year }}</h1>
@@ -102,7 +112,19 @@
                             {% if day == date %}
                             {% for event in list %}
                             <li style="list-style-type: none;">
-                                <a href="#">{{ event.start_time|time:"H:i" }} - {{ event.text }}</a>
+                                {% if event.importance == "1" %}
+                                <div class="event_box" style="background-color: #8B4513;">
+                                {% elif event.importance == "2" %}
+                                <div class="event_box" style="background-color: #ca9026;">
+                                {% else %}
+                                <div class="event_box" style="background-color: #2686da;">
+                                {% endif %}
+                                <a class="event_box" href="{% url 'event:event_detail' event.id %}">
+                                    <u>{{ event.start_time|time:"H:i" }} - {{ event.end_time|time:"H:i" }}</u>
+                                <br> 
+                                {{ event.text }}
+                                </a>
+                                </div>
                             </li>
                             {% endfor %}
                             {% endif %}

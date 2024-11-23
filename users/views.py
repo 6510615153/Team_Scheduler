@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from .forms import UserRegisterForm, GroupCreationForm
 from django.contrib.auth.decorators import login_required
 from .models import Group, Member, Joining
+from django.db.models import Subquery
 
 # Create your views here.
 
@@ -74,8 +75,9 @@ def group_create(request):
         form = GroupCreationForm(request.POST)
         if form.is_valid():
             group = form.save()
-            joined = Joining.objects.create(joined_group=group)
-            member.joined_group.add(joined)
+            joined_mem = Joining.objects.create(joined_group=group, joined_rank="member")
+            joined_own = Joining.objects.create(joined_group=group, joined_rank="owner")
+            member.joined_group.add(joined_own)
             return HttpResponseRedirect(reverse("users:group_view"))
     else:
         form = GroupCreationForm()
@@ -84,15 +86,58 @@ def group_create(request):
         "form": form,
     })
 
-# def group_page(request):
-#     pass
-
 @login_required
 def join_group(request):
     member = Member.objects.get(member_user=request.user)
     if request.method == "POST":
         code = request.POST["group_code"]
-        group = Group.objects.get(group_code=code)
-        joined = Joining.objects.get(joined_group=group)
-        member.joined_group.add(joined)
-        return HttpResponseRedirect(reverse("users:group_view"))
+        current_group = Group.objects.get(group_code=code)
+        joined = Joining.objects.filter(joined_group=current_group)
+        member_joined = Member.objects.filter(joined_group__in=Subquery(joined.values('id')))
+        total_joined = member_joined.count()
+        
+        if total_joined >= current_group.group_slot:
+            return render(request, 'users/group_page.html', {     
+                "message": "Max Member reached."
+            })
+        else:
+            group = Group.objects.get(group_code=code)
+            joined = Joining.objects.get(joined_group=group, joined_rank="member")
+            member.joined_group.add(joined)
+            return HttpResponseRedirect(reverse("users:group_view"))
+    
+@login_required
+def leave_group(request, code):
+    member = Member.objects.get(member_user=request.user)
+    group = Group.objects.get(group_code=code)
+    joined = member.joined_group.get(joined_group=group)
+    member.joined_group.remove(joined)
+
+    if joined.joined_rank == "owner":
+        group.delete()
+
+    return HttpResponseRedirect(reverse("users:group_view"))
+    
+@login_required
+def see_group_page(request, code):
+    current_group = Group.objects.get(group_code=code)
+    joined = Joining.objects.filter(joined_group=current_group)
+    member_joined = Member.objects.filter(joined_group__in=Subquery(joined.values('id')))
+    
+    total_joined = member_joined.count()
+
+    owner = ""
+    for member in member_joined:
+        current_joined = member.joined_group.get(joined_group=current_group)
+        if current_joined.joined_rank == "owner":
+            owner = member.member_name
+            break
+
+    return render(request, 'users/group_page.html', {     
+        "group": current_group,
+        "code": current_group.group_code,
+        "name": current_group.group_name,
+        "slot": current_group.group_slot,
+        "total_member": total_joined,
+        "owner": owner
+    })

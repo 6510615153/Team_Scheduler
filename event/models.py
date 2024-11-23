@@ -14,6 +14,13 @@ class Event(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     member = models.ForeignKey(Member, on_delete=models.CASCADE, related_name="mem_event")   # Multiple Event, 1 user  
 
+    importance_rank = [
+        ("1", "Very Important"), 
+        ("2", "Important"),
+        ("3", "Normal"),
+    ]
+    importance = models.CharField(choices=importance_rank, default="3", max_length=10)
+
     def __str__(self):
         return f"{self.start_time}"
 

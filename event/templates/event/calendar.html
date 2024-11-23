@@ -22,7 +22,7 @@
 
         table {
                 width: 90%;
-                max-width: 900px;
+                max-width: 1200px;
                 margin: 0px auto; /* Adds spacing above and below the table */
                 border-collapse: collapse;
                 box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1); /* More pronounced shadow for depth */
@@ -55,25 +55,14 @@
             background-color: #edd9b2;
         }
 
-        .change_date {
-            margin: 1px auto;
-        }
-
-        .change_date a {
+        .event_box {
             text-decoration: none;
+            text-underline-offset: 4px;
             font-size: 1rem;
-            padding: 10px 20px;
-            margin: 5px;
-            background-color: #8B4513;
             color: white;
             border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s, transform 0.2s;
-        }
-
-        .change_date a:hover {
-            background-color: #67320c;
-            transform: scale(1.05);
+            padding-top: 3px;
+            padding-bottom: 3px;
         }
     </style>
 </head>
@@ -101,8 +90,20 @@
                         {% for date, list in events.items %}
                             {% if day == date %}
                             {% for event in list %}
-                            <li style="list-style-type: none;">
-                                <a href="#">{{ event.start_time|time:"H:i" }} - {{ event.text }}</a>
+                            <li style="list-style-type: none; ">
+                                {% if event.importance == "1" %}
+                                <div class="event_box" style="background-color: #8B4513;">
+                                {% elif event.importance == "2" %}
+                                <div class="event_box" style="background-color: #ca9026;">
+                                {% else %}
+                                <div class="event_box" style="background-color: #2686da;">
+                                {% endif %}
+                                <a class="event_box" href="{% url 'event:event_detail' event.id %}">
+                                    <u>{{ event.start_time|time:"H:i" }} - {{ event.end_time|time:"H:i" }}</u>
+                                <br> 
+                                {{ event.text }}
+                                </a>
+                                </div>
                             </li>
                             {% endfor %}
                             {% endif %}
@@ -125,6 +126,14 @@
     <br><br>
     <div class="change_date" style="left: 50%;">
         <a href="{% url 'event:event_add' %}">Add Event</a>
+    </div>
+    <br><br>
+    <div class="change_date" style="left: 50%;">
+        <form method="POST" action="{% url 'event:calendar_pdf'%}">
+            {% csrf_token %}
+            <input type="text" type="hidden" name="packed_context" value="{{ packed_context }}" style="display: none;">
+            <button type="submit">Print PDF</button>
+        </form>
     </div>
 </body>
 </html>
