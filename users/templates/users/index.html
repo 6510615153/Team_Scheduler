@@ -6,52 +6,167 @@
     <title>Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        /* พื้นฐาน */
         body {
             margin: 0;
             font-family: 'Inter', sans-serif;
-            background-color: #e0e0e0; /* พื้นหลังสีเทาเข้ม */
+            background: linear-gradient(135deg, #d4f1f9, #b2e4f4, #91d4f0); /* ใช้สีพาสเทล */
+            background-size: 300% 300%;
+            animation: gradientShift 10s infinite ease-in-out;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            overflow: hidden;
+            transition: opacity 0.5s ease-in-out; /* สำหรับจางหาย */
         }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body.fade-out {
+            opacity: 0;
+        }
+
+        /* กล่องหลัก */
         .container {
-            background-color: #fff; /* กรอบสีขาว */
-            border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* เงาลอย */
-            padding: 40px 50px;
+            background: rgba(255, 255, 255, 0.9); /* โปร่งใสเล็กน้อย */
+            backdrop-filter: blur(12px); /* เบลอพื้นหลัง */
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            padding: 50px;
             text-align: center;
-            max-width: 400px;
             width: 90%;
+            max-width: 600px;
+            position: relative;
+            transform: scale(1);
+            transition: transform 0.3s ease;
         }
+
+        .container:hover {
+            transform: scale(1.03); /* ซูมเล็กน้อยเมื่อ hover */
+        }
+
+        /* หัวข้อ */
         h1 {
-            font-size: 28px;
-            font-weight: 600;
+            font-size: 32px;
+            font-weight: 700;
             margin-bottom: 30px;
-            color: #222;
+            color: #2a4d69;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
+
+        /* ปุ่ม */
         .box_temp {
             display: inline-block;
-            padding: 12px 20px;
+            padding: 14px 24px;
             font-size: 18px;
             font-weight: 600;
             text-decoration: none;
             color: #fff;
-            background-color: #333;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            background: linear-gradient(90deg, #0056b3, #007bff);
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
         }
+
         .box_temp:hover {
-            background-color: #555;
-            transform: translateY(-2px); /* ยกปุ่มขึ้นเล็กน้อยเมื่อ hover */
+            background: linear-gradient(90deg, #007bff, #0056b3);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ปุ่ม Logout */
+        .logout-btn {
+            display: inline-block;
+            padding: 14px 24px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            color: #fff;
+            background: linear-gradient(90deg, #d9534f, #c9302c);
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            margin-top: 20px; /* เพิ่มระยะห่างจากปุ่มที่อยู่ด้านบน */
+        }
+
+        .logout-btn:hover {
+            background: linear-gradient(90deg, #c9302c, #d9534f);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* เอฟเฟกต์วงกลม */
+        .floating-circle {
+            position: absolute;
+            border-radius: 50%;
+            animation: float 6s infinite ease-in-out;
+            z-index: -1; /* อยู่ด้านหลัง */
+        }
+
+        .circle1 {
+            background: rgba(255, 255, 255, 0.2);
+            width: 300px;
+            height: 300px;
+            top: -50px;
+            left: -100px;
+        }
+
+        .circle2 {
+            background: rgba(255, 255, 255, 0.15);
+            width: 400px;
+            height: 400px;
+            bottom: -100px;
+            right: -150px;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-30px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .box_temp, .logout-btn {
+                font-size: 14px;
+                padding: 10px 20px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- วงกลมตกแต่ง -->
+    <div class="floating-circle circle1"></div>
+    <div class="floating-circle circle2"></div>
+
     <div class="container">
         <h1>Welcome, {{ request.user.username }}</h1>
-        <a href="{% url 'users:group_view' %}" class="box_temp">See Group</a>
+        <a href="{% url 'users:group_view' %}" class="box_temp" onclick="transitionPage(event)">See Group</a>
+        <a href="{% url 'users:logout' %}" class="logout-btn" onclick="transitionPage(event)">Logout</a> <!-- ปุ่ม Logout -->
     </div>
+
+    <script>
+        // เอฟเฟกต์จางหายเมื่อเปลี่ยนหน้า
+        function transitionPage(event) {
+            event.preventDefault();
+            const link = event.currentTarget.href;
+            document.body.classList.add('fade-out');
+            setTimeout(() => {
+                window.location.href = link;
+            }, 500);
+        }
+    </script>
 </body>
 </html>
