@@ -6,33 +6,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Pacifico&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0;
             font-family: 'Inter', sans-serif;
-            background-color: #f9f9f9; /* พื้นหลังสีเทาอ่อน */
+            background: linear-gradient(135deg, #d4f1f9, #b2e4f4, #91d4f0);
+            background-size: 300% 300%;
+            animation: gradientShift 10s infinite ease-in-out;
             color: #333;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
         }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         .container {
-            background-color: #fff; /* กรอบสีขาว */
-            border-radius: 12px; /* มุมโค้งมน */
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* เงาให้ดูเหมือนลอย */
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
             padding: 40px;
             max-width: 800px;
             width: 90%;
             text-align: center;
         }
+
         .container h1 {
-            font-size: 32px;
-            font-weight: 600;
+            font-family: 'Pacifico', cursive;
+            font-size: 36px;
+            color: #2a4d69;
             margin-bottom: 20px;
-            color: #222;
         }
+
+        .container h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #31708e;
+            margin-bottom: 20px;
+        }
+
         .container ol {
             text-align: left;
             font-size: 18px;
@@ -41,14 +60,17 @@
             margin: 20px 0 30px;
             list-style: none;
         }
+
         .container ol li {
             margin-bottom: 10px;
         }
+
         .container ol li::before {
             content: "• ";
-            color: #333;
+            color: #31708e;
             font-size: 20px;
         }
+
         .icon-link {
             display: flex;
             align-items: center;
@@ -58,41 +80,52 @@
             font-size: 16px;
             font-weight: 600;
             text-decoration: none;
-            color: #333;
-            background-color: #f1f1f1;
+            color: #fff;
+            background: linear-gradient(90deg, #8EC5FC, #63A4FF);
             padding: 12px 16px;
             border-radius: 8px;
             transition: all 0.3s ease;
         }
+
         .icon-link:hover {
-            background-color: #333;
-            color: #fff;
+            background: linear-gradient(90deg, #63A4FF, #8EC5FC);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
+
         .icon-link img {
             width: 30px;
             height: 30px;
         }
+
         .footer {
             margin-top: 40px;
             font-size: 14px;
-            color: #999;
+            color: #555;
         }
+
+        .footer p {
+            margin: 5px 0;
+        }
+
         .return-link {
             margin-top: 20px;
             display: inline-block;
             padding: 12px 24px;
-            border: 2px solid #333;
+            border: none;
             border-radius: 8px;
             text-decoration: none;
-            color: #333;
+            color: #fff;
             font-size: 16px;
             font-weight: 600;
-            background-color: #fff;
+            background: linear-gradient(90deg, #A5D6A7, #81C784);
             transition: all 0.3s ease;
         }
+
         .return-link:hover {
-            background-color: #333;
-            color: #fff;
+            background: linear-gradient(90deg, #81C784, #A5D6A7);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
     </style>
 </head>
