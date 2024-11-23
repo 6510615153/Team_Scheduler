@@ -17,7 +17,7 @@
             align-items: center;
             min-height: 100vh;
             opacity: 1;
-            transition: opacity 0.5s ease; /* เพิ่ม transition */
+            transition: opacity 0.5s ease; /*เพิ่ม transition */
         }
         .container {
             background-color: #fff;
@@ -86,6 +86,11 @@
     </div>
 
     <script>
+        window.addEventListener('pageshow', (event) => {
+        if (event.persisted) {
+            document.body.style.opacity = '1';
+        }
+        });
         // จัดการการคลิกและเพิ่มเอฟเฟกต์ fade-out
         const links = document.querySelectorAll('[data-transition]');
 

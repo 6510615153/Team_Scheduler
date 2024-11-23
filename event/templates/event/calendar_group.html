@@ -11,37 +11,43 @@
             font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f3f4f6;
-            color: rgb(77, 76, 79);
+            background: linear-gradient(-45deg, #d0f0fd, #e6f7ff, #cce7f5, #b3d9f7);
+            background-size: 400% 400%;
+            animation: gradientMove 10s ease infinite;
+            color: #4a4a4a;
             text-align: center;
+            transition: opacity 0.3s ease;
         }
+
         h1 {
             font-size: 2.5rem;
             margin: 20px 0;
-            color: #8B4513;
+            color: #006699;
         }
 
         table {
-                width: 90%;
-                max-width: 900px;
-                margin: 0px auto; /* Adds spacing above and below the table */
-                border-collapse: collapse;
-                box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1); /* More pronounced shadow for depth */
-                border-radius: 9px;
-                overflow: hidden; /* Ensures rounded corners affect inner content */
-                text-align: center; /* Centers text inside cells */
-                table-layout: fixed;
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            text-align: center;
+            background-color: #f0faff;
         }
 
-        th{
-            padding: 10px;
+        th {
+            max-width: 15%;
+            padding: 15px;
             border: 1px solid #ddd;
             text-align: center;
-            background-color: #8B4513;
+            background-color: #66b2ff;
             color: white;
             font-weight: bold;
             text-transform: uppercase;
         }
+
         td {
             padding: 10px;
             border: 1px solid #ddd;
@@ -49,11 +55,62 @@
             height: 80px;
             vertical-align: top;
             font-size: 0.9rem;
-            background-color: #FDF5E6;
+            background-color: #e6f7ff;
+            position: relative;
+            overflow: hidden;
         }
 
         td.empty {
-            background-color: #edd9b2;
+            background-color: #d0f0fd;
+        }
+
+        td a {
+            color: #0073e6;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        td a:hover {
+            color: #0059b3;
+            text-decoration: underline;
+        }
+
+        .change_date {
+            margin: 15px auto;
+        }
+
+        .change_date a {
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #66b2ff;
+            color: white;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .change_date a:hover {
+            background-color: #0059b3;
+            transform: scale(1.05);
+        }
+
+        .add_event {
+            margin-top: 20px; /* เพิ่มระยะห่างด้านบน */
+        }
+
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         .change_date {
@@ -76,6 +133,15 @@
             background-color: #67320c;
             transform: scale(1.05);
         }
+        
+        .event_box {
+            text-decoration: none;
+            text-underline-offset: 4px;
+            color: white;
+            border-radius: 5px;
+            padding: 3px;
+        }
+
     </style>
 <body>
 <h1>{{ month_name }} {{ year }}</h1>
@@ -134,5 +200,11 @@
         <a href="{% url 'event:calendar_change_group' code=group_code year=prev_year month=prev_month %}">Previous Month</a> 
         <a href="{% url 'event:calendar_change_group' code=group_code year=next_year month=next_month %}">Next Month</a>
     </div>
+    <br>
+        <div class="change_date add_event">
+            <a href="{% url 'users:group_view' %}">Back</a>
+        </div>
+        <br>
+        <br>
 </body>
 </html>

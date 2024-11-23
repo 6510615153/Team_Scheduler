@@ -177,13 +177,16 @@ def calendar_view_group(request, code, year = None, month = None):
 def see_event_detail(request, event_id):
     current_event = Event.objects.get(pk=event_id)
 
+    previous_url = request.META.get('HTTP_REFERER', '/calendar/')
+
     return render(request, 'event/event_page.html', {     
         "date": current_event.date,
         "start": current_event.start_time,
         "end": current_event.end_time,
         "text": current_event.text,
         "owner": current_event.member,
-        "current_event": current_event
+        "current_event": current_event,
+        "prev_url": previous_url,
     })
 
 @login_required
