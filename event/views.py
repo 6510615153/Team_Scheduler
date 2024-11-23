@@ -60,18 +60,18 @@ def calendar_view(request, year = None, month = None):
     # Wouldn't have to do this if setfirstweek() actually work
     day_names = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
-    packed_context = {      
-        'year': year,
-        'month': month,
-        'prev_month': prev_month,
-        'next_month': next_month,
-        'prev_year': prev_year,
-        'next_year': next_year,
-        'month_name': calendar.month_name[month],
-        'month_days': days_in_month,
-        'day_names': day_names, 
-        'events': events_per_day,
-    }
+    # packed_context = {      
+    #     'year': year,
+    #     'month': month,
+    #     'prev_month': prev_month,
+    #     'next_month': next_month,
+    #     'prev_year': prev_year,
+    #     'next_year': next_year,
+    #     'month_name': calendar.month_name[month],
+    #     'month_days': days_in_month,
+    #     'day_names': day_names, 
+    #     'events': events_per_day,
+    # }
 
     return render(request, 'event/calendar.html', {      
         'year': year,
@@ -84,7 +84,7 @@ def calendar_view(request, year = None, month = None):
         'month_days': days_in_month,
         'day_names': day_names, 
         'events': events_per_day,
-        'packed_context': packed_context
+        # 'packed_context': packed_context
     })
 
 
