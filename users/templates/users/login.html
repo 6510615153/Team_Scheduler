@@ -9,7 +9,7 @@
         body {
             margin: 0;
             font-family: 'Inter', sans-serif;
-            background-color: #e0e0e0; /* พื้นหลังสีเทาอ่อน */
+            background-color: #eef7fd; /* พื้นหลังสีฟ้าอ่อน */
             color: #333;
             display: flex;
             justify-content: center;
@@ -17,25 +17,25 @@
             min-height: 100vh;
         }
         .container {
-            background-color: #fff; /* กรอบสีขาว */
+            background-color: #fff;
             border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* เงาลอย */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
             padding: 40px 50px;
             text-align: center;
             max-width: 400px;
             width: 90%;
         }
         h1 {
-            font-size: 28px;
+            font-size: 30px;
             font-weight: 600;
             margin-bottom: 20px;
-            color: #222;
+            color: #004d99; /* สีหัวข้อฟ้าเข้ม */
         }
         input[type="text"], input[type="password"] {
             width: 100%;
             padding: 12px 15px;
             margin: 10px 0;
-            border: 1px solid #ccc;
+            border: 1px solid #b3d9ff; /* กรอบสีฟ้าอ่อน */
             border-radius: 8px;
             font-size: 16px;
             box-sizing: border-box;
@@ -43,7 +43,7 @@
             transition: border-color 0.3s ease;
         }
         input[type="text"]:focus, input[type="password"]:focus {
-            border-color: #333;
+            border-color: #007acc; /* กรอบสีฟ้าสดเมื่อโฟกัส */
         }
         input[type="submit"] {
             width: 100%;
@@ -53,27 +53,27 @@
             font-size: 16px;
             font-weight: 600;
             color: #fff;
-            background-color: #333;
+            background-color: #007acc; /* ปุ่มสีฟ้าสด */
             cursor: pointer;
             transition: background-color 0.3s ease;
             margin-top: 20px;
         }
         input[type="submit"]:hover {
-            background-color: #555;
+            background-color: #005f99; /* สีปุ่มเข้มขึ้นเมื่อ hover */
         }
         .footer {
             margin-top: 20px;
             font-size: 14px;
-            color: #999;
+            color: #666;
         }
         .footer a {
-            color: #333;
+            color: #007acc;
             text-decoration: none;
             font-weight: 600;
             transition: color 0.3s ease;
         }
         .footer a:hover {
-            color: #555;
+            color: #005f99; /* สีลิงก์เข้มขึ้นเมื่อ hover */
         }
     </style>
 </head>
@@ -86,8 +86,9 @@
             <input type="password" name="password" placeholder="Password" required>
             <input type="submit" value="Login">
         </form>
-        <br>
-        No account? <a href="{% url 'users:register' %}" class="box_temp">Register Now</a>
+        <div class="footer">
+            No account? <a href="{% url 'users:register' %}">Register Now</a>
+        </div>
     </div>
 </body>
 </html>
