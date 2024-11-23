@@ -102,7 +102,19 @@
                             {% if day == date %}
                             {% for event in list %}
                             <li style="list-style-type: none;">
-                                <a href="#">{{ event.start_time|time:"H:i" }} - {{ event.text }}</a>
+                                {% if event.importance == "1" %}
+                                <div class="event_box" style="background-color: #8B4513;">
+                                {% elif event.importance == "2" %}
+                                <div class="event_box" style="background-color: #ca9026;">
+                                {% else %}
+                                <div class="event_box" style="background-color: #2686da;">
+                                {% endif %}
+                                <a class="event_box" href="{% url 'event:event_detail' event.id %}">
+                                    <u>{{ event.start_time|time:"H:i" }} - {{ event.end_time|time:"H:i" }}</u>
+                                <br> 
+                                {{ event.text }}
+                                </a>
+                                </div>
                             </li>
                             {% endfor %}
                             {% endif %}
