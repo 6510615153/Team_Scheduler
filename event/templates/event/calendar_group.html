@@ -224,7 +224,7 @@
         <br>
         <br>
         <div>
-            <form method="POST" action="{% url 'event:calendar_pdf'%}">
+            <form method="POST" action="{% url 'event:calendar_pdf_group' code=group_code %}">
                 {% csrf_token %}
                 <input type="text" type="hidden" name="packed_context" style="display: none;">
                 <button type="submit" class="print_pdf_button">Print PDF</button>
