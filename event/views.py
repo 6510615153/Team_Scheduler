@@ -361,6 +361,8 @@ def calendar_to_pdf_group(request, code):
 
     styles = getSampleStyleSheet()
 
+    print(events_per_day)
+
     for week in days_in_month:
         row = []
         for day in week:
