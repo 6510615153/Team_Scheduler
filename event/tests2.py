@@ -1,11 +1,10 @@
 from django.test import TestCase
 from .models import Event
-from .forms import EventCreationFormSingle
 from users.models import Member, Joining, Group
-from datetime import datetime, date, time
+from datetime import date, time
 from django.contrib.auth.models import User
 from django.urls import reverse
-from . import views
+from django.db.models import Subquery
 
 class EventTestCase(TestCase):
 
@@ -49,11 +48,30 @@ class EventTestCase(TestCase):
         response = self.client.get(reverse('event:event_detail', args=(self.event1.id,)))
         self.assertEqual(response.status_code, 200)
 
+    def test_event_detail_correct_context(self):
+        """Context should be correct for the event detail."""
+        self.client.force_login(self.user1)
+        response = self.client.get(reverse('event:event_detail', args=(self.event1.id,)))
+
+        self.assertEqual(response.context["current_event"], self.event1)
+        self.assertEqual(response.context["owner"], self.event1.member)
+        self.assertEqual(response.context["text"], self.event1.text)
+
     def test_working_pdf(self):
         """If PDF is created, response content type should be PDF, and 'calendar.pdf' should be in Content-Disposition section"""
         self.client.force_login(self.user1)
 
         response = self.client.get(reverse('event:calendar_pdf'))
+
+        self.assertEqual(response['Content-Type'], 'application/pdf')
+
+        self.assertIn('calendar.pdf', response['Content-Disposition'])
+
+    def test_working_pdf_group(self):
+        """If PDF is created, response content type should be PDF, and 'calendar.pdf' should be in Content-Disposition section"""
+        self.client.force_login(self.user1)
+
+        response = self.client.get(reverse('event:calendar_pdf_group', args=(self.group1.group_code,)))
 
         self.assertEqual(response['Content-Type'], 'application/pdf')
 

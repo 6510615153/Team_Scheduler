@@ -1,9 +1,9 @@
 from django.test import TestCase
 from .models import Member, Group, Joining
-from .forms import GroupCreationForm
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.contrib.auth import authenticate, login
+from django.db.models import Subquery
 
 class UsersTestCase(TestCase):
 
@@ -71,3 +71,16 @@ class UsersTestCase(TestCase):
         response = self.client.get(reverse("users:see_group", args=['gggg']))
 
         self.assertEqual(response.status_code,200)
+
+    def test_correct_context_group_page(self):
+        """Context should be correct for the group page."""
+        self.client.force_login(self.user1)
+        response = self.client.get(reverse("users:see_group", args=['gggg']))
+
+        joined = Joining.objects.filter(joined_group=self.group)
+        member_joined = Member.objects.filter(joined_group__in=Subquery(joined.values('id')))
+        total_joined = member_joined.count()
+
+        self.assertEqual(response.context["group"], self.group)
+        self.assertEqual(response.context["total_member"], total_joined)
+        self.assertEqual(response.context["owner"], self.owner.member_name)

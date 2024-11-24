@@ -7,7 +7,6 @@ from .models import Event
 from .forms import EventCreationFormSingle
 from users.models import Member, Joining, Group
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ObjectDoesNotExist
 
 from django.http import HttpResponse
 from reportlab.lib.pagesizes import letter
@@ -243,6 +242,103 @@ def calendar_to_pdf(request):
         if day not in events_per_day:           # if this day isn't already in the list, 
             events_per_day[day] = []            # create list for that day
         events_per_day[day].append(event)       # add event into that day
+
+    day_names = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'inline; filename="calendar.pdf"'
+
+    doc = SimpleDocTemplate(response, pagesize=letter)
+    elements = []
+
+    title = f"{calendar.month_name[month]} {year}"
+    elements.append(Table([[title]], style=[
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('FONTSIZE', (0, 0), (-1, -1), 16),
+    ]))
+
+    elements.append(Spacer(1, 20))
+
+    day_names = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    table_data = [day_names]
+
+    styles = getSampleStyleSheet()
+
+    for week in days_in_month:
+        row = []
+        for day in week:
+            if day == 0:  
+                row.append("")
+            else:
+                count = len(row)
+                cell_content = f"{day}\n"
+                row.append(cell_content)
+                for date, list in events_per_day.items():
+                    for event in list:
+                        if day == date:
+                            start_time = event.start_time.strftime("%H:%M")
+                            end_time = event.end_time.strftime("%H:%M")
+                            text = event.text
+                            old_text = row[count]
+                            new_text = f"{old_text}\n{start_time} - {end_time}\n{text}"
+                            row[count] = new_text
+        table_data.append(row)
+        
+    # Create Table
+    header_size = 50
+    data_size = 100
+    table = Table(table_data, colWidths=80, rowHeights= [header_size, data_size, data_size, data_size, data_size, data_size])
+    table.setStyle(TableStyle([
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ('BACKGROUND', (0, 0), (-1, 0), colors.crimson),
+        # Table header
+        ('ALIGN', (0, 0), (-1, 0), 'CENTER'), 
+        ('VALIGN', (0, 0), (-1, 0), 'MIDDLE'),
+        # Table Data
+        ('ALIGN', (0, 1), (-1, -1), 'RIGHT'),
+        ('VALIGN', (0, 1), (-1, -1), 'TOP'),
+        ('FONTSIZE', (0, 0), (-1, -1), 10),
+        
+    ]))
+
+    elements.append(table)
+    doc.build(elements)
+
+    return response
+
+@login_required
+def calendar_to_pdf_group(request, code):
+    day = datetime.today()
+    year = day.year
+    month = day.month
+
+    year = int(year)
+    month = int(month)
+
+    cal = calendar.Calendar(6)                                          # 6, So sunday is the first. Maybe changed later.
+    days_in_month = cal.monthdayscalendar(year, month)
+
+    current_group = Group.objects.get(group_code=code)
+
+    current_join = Joining.objects.filter(joined_group = current_group).first().get_code()
+    sorted_events = Event.objects.all().order_by("start_time")              # Sort event by time first
+    all_events = sorted_events.filter(date__year=year, 
+                                      date__month=month,)
+    
+    events_per_day = {}
+    for event in all_events:
+        day = event.date.day                    # get day of event date
+        if day not in events_per_day:           # if this day isn't already in the list, 
+            events_per_day[day] = []            # create list for that day
+
+        current_event = event.member.joined_group.all()
+        # print(event.member)
+        # print(current_join)
+        for item in current_event:
+            #print(item.get_code())
+            if item.get_code() == current_join:
+                events_per_day[day].append(event) 
+
 
     day_names = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 

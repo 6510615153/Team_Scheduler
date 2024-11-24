@@ -142,6 +142,23 @@
             padding: 3px;
         }
 
+        .print_pdf_button {
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #8B4513;
+            color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .print_pdf_button:hover {
+            background-color: #67320c;
+            transform: scale(1.05);
+        }
+
     </style>
 <body>
 <h1>{{ month_name }} {{ year }}</h1>
@@ -206,5 +223,26 @@
         </div>
         <br>
         <br>
+        <div>
+            <form method="POST" action="{% url 'event:calendar_pdf'%}">
+                {% csrf_token %}
+                <input type="text" type="hidden" name="packed_context" style="display: none;">
+                <button type="submit" class="print_pdf_button">Print PDF</button>
+            </form>
+        </div>
+
+        <script>
+            // Transition เมื่อเปลี่ยนเดือน
+            const links = document.querySelectorAll('.change-month');
+            links.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.body.style.opacity = '0';
+                    setTimeout(() => {
+                        window.location.href = link.href;
+                    }, 300); // ลดเวลาหน่วงเหลือ 300ms
+                });
+            });
+        </script>
 </body>
 </html>
