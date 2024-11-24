@@ -6,7 +6,6 @@ from .forms import UserRegisterForm, GroupCreationForm
 from django.contrib.auth.decorators import login_required
 from .models import Group, Member, Joining
 from django.db.models import Subquery
-from django.contrib import messages
 
 # Create your views here.
 
