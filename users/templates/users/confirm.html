@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* พื้นฐาน */
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #d4f1f9, #b2e4f4, #91d4f0);
+            background-size: 300% 300%;
+            animation: gradientShift 8s infinite ease-in-out;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            transition: opacity 0.5s ease; /* Transition สำหรับการเปลี่ยนหน้า */
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* กล่องหลัก */
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2a4d69;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            font-size: 16px;
+            color: #555;
+            text-align: left;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            margin-bottom: 20px;
+            transition: box-shadow 0.3s ease, border 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: #91d4f0;
+            box-shadow: 0 0 8px rgba(145, 212, 240, 0.5);
+        }
+
+        button {
+            background: linear-gradient(90deg, #91d4f0, #b2e4f4);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 0 8px 16px rgba(145, 212, 240, 0.2);
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(90deg, #b2e4f4, #91d4f0);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(145, 212, 240, 0.3);
+        }
+
+        /* ปุ่ม Back */
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(90deg, #b2e4f4, #d4f1f9);
+            color: #333;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: linear-gradient(90deg, #d4f1f9, #b2e4f4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            background-color: #007acc; /* ปุ่มสีฟ้าสด */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            button {
+                font-size: 14px;
+                padding: 10px 20px;
+            }
+        }
+
+        /* Transition effect for page change */
+        .fade-out {
+            opacity: 0;
+            pointer-events: none; /* ปิดการใช้งาน event เพื่อป้องกันการคลิกระหว่าง transition */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{% url 'users:group_view' %}" class="back-button" onclick="transitionPage(event)">Back</a>
+        <h2>Confirm Code</h2>
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" name="code" placeholder="Code" required>
+            <input type="submit" value="Confirm Code">
+        </form>
+    </div>
+
+    <script>
+        // Transition เมื่อเปลี่ยนหน้า
+        function transitionPage(event) {
+            event.preventDefault();  // ป้องกันการคลิกทันที
+            const link = event.currentTarget.href;
+            document.body.classList.add('fade-out');  // เพิ่มคลาส fade-out
+            setTimeout(() => {
+                window.location.href = link;  // ไปยังหน้าถัดไปหลังจากการเปลี่ยนแปลง
+            }, 500);  // ระยะเวลาให้ fade-out เสร็จ
+        }
+    </script>
+</body>
+</html>
