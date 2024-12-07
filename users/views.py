@@ -6,6 +6,7 @@ from .forms import UserRegisterForm, GroupCreationForm
 from django.contrib.auth.decorators import login_required
 from .models import Group, Member, Joining
 from django.db.models import Subquery
+import secrets
 
 # Create your views here.
 
@@ -74,7 +75,10 @@ def group_create(request):
     if request.method == "POST":
         form = GroupCreationForm(request.POST)
         if form.is_valid():
-            group = form.save()
+            group = form.save(commit=False)
+            group.group_code = code_generate()  
+            group.save()  
+
             joined_mem = Joining.objects.create(joined_group=group, joined_rank="member")
             joined_own = Joining.objects.create(joined_group=group, joined_rank="owner")
             member.joined_group.add(joined_own)
@@ -85,6 +89,12 @@ def group_create(request):
     return render(request, "users/group_create.html", {
         "form": form,
     })
+
+def code_generate():
+    while True:
+        group_code = secrets.token_hex(20)
+        if not Group.objects.filter(group_code=group_code).exists():
+            return group_code
 
 @login_required
 def join_group(request):
