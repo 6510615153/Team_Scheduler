@@ -174,5 +174,11 @@
             }, 500);  // ระยะเวลาให้ fade-out เสร็จ
         }
     </script>
+
+    {% if message %}
+    <script>
+        alert("{{ message }}");
+    </script>
+    {% endif %}
 </body>
 </html>

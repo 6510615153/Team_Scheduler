@@ -83,14 +83,21 @@ def confirm(request):
     if request.method == "POST":
         code = request.POST["code"]
 
-        member = Member.objects.get(member_code=code)
-        user = member.member_user
+        member = Member.objects.filter(member_code=code).first()
 
-        if code == member.member_code:
+        if member is not None:
+            user = member.member_user
             user.is_active = True
             user.save()
             login(request, user)
-            return HttpResponseRedirect(reverse("users:dashboard"))
+            return render(request, "users/index.html", {
+                "message": "Code successfully confirmed! Welcome!",
+            })
+        
+        else:
+            return render(request, "users/confirm.html", {
+                "message": "Incorrect code.",
+            })
         
     return render(request, "users/confirm.html", {})
 
