@@ -99,7 +99,7 @@ def confirm(request):
                 "message": "Incorrect code.",
             })
         
-    return render(request, "users/confirm.html", {})
+    return render(request, "users/confirm.html")
 
 @login_required
 def group_view(request):
