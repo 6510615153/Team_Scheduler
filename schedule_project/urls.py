@@ -22,4 +22,5 @@ urlpatterns = [
     path("", include("main_page.urls")),
     path("", include("users.urls")),
     path("", include("event.urls")),
+    path("mailing/", include("mailing.urls")),
 ]

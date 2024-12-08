@@ -112,7 +112,7 @@ class UsersTestCase(TestCase):
 
         response = self.client.post(reverse("users:register"), register_data)
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
 
     def test_group_view_available(self):
         """You can view available group, code 200"""

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Group</title>
+    <title>Confirm</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
         /* พื้นฐาน */
@@ -115,6 +115,19 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            background-color: #007acc; /* ปุ่มสีฟ้าสด */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -142,14 +155,11 @@
 <body>
     <div class="container">
         <a href="{% url 'users:group_view' %}" class="back-button" onclick="transitionPage(event)">Back</a>
-        <h2>Create New Team</h2>
+        <h2>Confirm Code</h2>
         <form method="post">
             {% csrf_token %}
-            <label>Group Code</label>
-            The Code will be randomly generated.
-            <label>Group Name</label>
-            {{ form.group_name }}
-            <button type="submit">Register</button>
+            <input type="text" name="code" placeholder="Code" required>
+            <input type="submit" value="Confirm Code">
         </form>
     </div>
 
@@ -164,5 +174,11 @@
             }, 500);  // ระยะเวลาให้ fade-out เสร็จ
         }
     </script>
+
+    {% if message %}
+    <script>
+        alert("{{ message }}");
+    </script>
+    {% endif %}
 </body>
 </html>

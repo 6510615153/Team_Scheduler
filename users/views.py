@@ -6,6 +6,11 @@ from .forms import UserRegisterForm, GroupCreationForm
 from django.contrib.auth.decorators import login_required
 from .models import Group, Member, Joining
 from django.db.models import Subquery
+from django.contrib.auth.models import User
+
+import secrets
+from django.conf import settings
+from mailing.views import send
 
 # Create your views here.
 
@@ -37,16 +42,35 @@ def logout_view(request):
         "Message" : "Logged out."
     })
 
+def code_generate_member():
+    while True:
+        member_code = secrets.token_hex(20)
+        if not Member.objects.filter(member_code=member_code).exists():
+            return member_code
+
 def register_view(request):
 
     if request.method == "POST":
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
-            return render(request, "users/login.html", {
-                "Message" : "You've successfully registered!",
-            })
+            user.is_active = False
+            user.save()
+
+            code = code_generate_member()
+            member = Member.objects.get(member_user=user)
+
+            member.member_code = code
+            member.save()
+
+            subject = "Please confirm your Registeration"
+            message = f"Your registeration confirmation code is : {code}"
+            to_email = []
+            to_email.append(user.email)
+
+            send(subject, message, to_email)   
+
+            return HttpResponseRedirect(reverse("users:confirm"))
     else:
         form = UserRegisterForm()
 
@@ -54,6 +78,28 @@ def register_view(request):
         "form": form,
         "Message" : "Register your account to gain access.",
     })
+
+def confirm(request):
+    if request.method == "POST":
+        code = request.POST["code"]
+
+        member = Member.objects.filter(member_code=code).first()
+
+        if member is not None:
+            user = member.member_user
+            user.is_active = True
+            user.save()
+            login(request, user)
+            return render(request, "users/index.html", {
+                "message": "Code successfully confirmed! Welcome!",
+            })
+        
+        else:
+            return render(request, "users/confirm.html", {
+                "message": "Incorrect code.",
+            })
+        
+    return render(request, "users/confirm.html")
 
 @login_required
 def group_view(request):
@@ -74,7 +120,10 @@ def group_create(request):
     if request.method == "POST":
         form = GroupCreationForm(request.POST)
         if form.is_valid():
-            group = form.save()
+            group = form.save(commit=False)
+            group.group_code = code_generate_group()  
+            group.save()  
+
             joined_mem = Joining.objects.create(joined_group=group, joined_rank="member")
             joined_own = Joining.objects.create(joined_group=group, joined_rank="owner")
             member.joined_group.add(joined_own)
@@ -85,6 +134,12 @@ def group_create(request):
     return render(request, "users/group_create.html", {
         "form": form,
     })
+
+def code_generate_group():
+    while True:
+        group_code = secrets.token_hex(20)
+        if not Group.objects.filter(group_code=group_code).exists():
+            return group_code
 
 @login_required
 def join_group(request):

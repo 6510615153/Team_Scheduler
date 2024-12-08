@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 import calendar
 from datetime import datetime
+from django.utils import timezone
 from .models import Event
 from .forms import EventCreationFormSingle
 from users.models import Member, Joining, Group
@@ -90,14 +91,23 @@ def calendar_view(request, year = None, month = None):
 def event_add(request):
     if request.method == "POST":
         form = EventCreationFormSingle(request.POST)
+
+        new_datetime = datetime.combine(datetime.strptime(request.POST["date"], "%Y-%m-%d").date(), 
+                                                        datetime.strptime(request.POST["start_time"], '%H:%M').time())
+        aware_datetime = timezone.make_aware(new_datetime)
+
         if form.is_valid():
             Event.objects.create(date=request.POST["date"], 
                              start_time=request.POST["start_time"], 
                              end_time=request.POST["end_time"], 
+
+                             date_time=aware_datetime,
+
                              text=request.POST["text"], 
                              user=request.user,
                              member=Member.objects.get(member_user=request.user),
                              importance=request.POST["importance"],)
+
             return HttpResponseRedirect(reverse("event:calendar"))
     else:
         form = EventCreationFormSingle()
@@ -221,10 +231,9 @@ def event_delete(request, event_id):
 #########################################################################
 
 @login_required
-def calendar_to_pdf(request):
-    day = datetime.today()
-    year = day.year
-    month = day.month
+def calendar_to_pdf(request, rcv_year, rcv_month):
+    year = rcv_year
+    month = rcv_month
 
     year = int(year)
     month = int(month)
@@ -307,10 +316,9 @@ def calendar_to_pdf(request):
     return response
 
 @login_required
-def calendar_to_pdf_group(request, code):
-    day = datetime.today()
-    year = day.year
-    month = day.month
+def calendar_to_pdf_group(request, code, rcv_year, rcv_month):
+    year = rcv_year
+    month = rcv_month
 
     year = int(year)
     month = int(month)
@@ -360,7 +368,7 @@ def calendar_to_pdf_group(request, code):
     table_data = [day_names]
 
     styles = getSampleStyleSheet()
-    
+
     for week in days_in_month:
         row = []
         for day in week:

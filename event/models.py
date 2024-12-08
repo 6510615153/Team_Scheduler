@@ -10,9 +10,14 @@ class Event(models.Model):
     date = models.DateField("Day of Event")
     start_time = models.TimeField("Start Time")
     end_time = models.TimeField("End Time")
+
+    date_time = models.DateTimeField("Datetime", blank=True, null=True)
+
     text = models.TextField("Text", blank=True, null=True, max_length=20) 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     member = models.ForeignKey(Member, on_delete=models.CASCADE, related_name="mem_event")   # Multiple Event, 1 user  
+
+    email_sent = models.BooleanField(default=False)
 
     importance_rank = [
         ("1", "Very Important"), 

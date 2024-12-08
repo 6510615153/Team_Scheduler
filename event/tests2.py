@@ -61,7 +61,7 @@ class EventTestCase(TestCase):
         """If PDF is created, response content type should be PDF, and 'calendar.pdf' should be in Content-Disposition section"""
         self.client.force_login(self.user1)
 
-        response = self.client.get(reverse('event:calendar_pdf'))
+        response = self.client.get(reverse('event:calendar_pdf',  args=[2024, 11]))
 
         self.assertEqual(response['Content-Type'], 'application/pdf')
 
@@ -71,7 +71,7 @@ class EventTestCase(TestCase):
         """If PDF is created, response content type should be PDF, and 'calendar.pdf' should be in Content-Disposition section"""
         self.client.force_login(self.user1)
 
-        response = self.client.get(reverse('event:calendar_pdf_group', args=(self.group1.group_code,)))
+        response = self.client.get(reverse('event:calendar_pdf_group', args=[self.group1.group_code, 2024, 11]))
 
         self.assertEqual(response['Content-Type'], 'application/pdf')
 
