@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'main_page',
     'users',
     'event',
+    'mailing',
+    # 'django_q',
 ]
 
 MIDDLEWARE = [
