@@ -221,10 +221,9 @@ def event_delete(request, event_id):
 #########################################################################
 
 @login_required
-def calendar_to_pdf(request):
-    day = datetime.today()
-    year = day.year
-    month = day.month
+def calendar_to_pdf(request, rcv_year, rcv_month):
+    year = rcv_year
+    month = rcv_month
 
     year = int(year)
     month = int(month)
@@ -307,10 +306,9 @@ def calendar_to_pdf(request):
     return response
 
 @login_required
-def calendar_to_pdf_group(request, code):
-    day = datetime.today()
-    year = day.year
-    month = day.month
+def calendar_to_pdf_group(request, code, rcv_year, rcv_month):
+    year = rcv_year
+    month = rcv_month
 
     year = int(year)
     month = int(month)
@@ -360,8 +358,6 @@ def calendar_to_pdf_group(request, code):
     table_data = [day_names]
 
     styles = getSampleStyleSheet()
-
-    print(events_per_day)
 
     for week in days_in_month:
         row = []
