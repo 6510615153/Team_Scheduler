@@ -38,4 +38,4 @@ class Member(models.Model):
     joined_group = models.ManyToManyField(Joining, blank=True, related_name="groups")
 
     def __str__(self):
-        return f"{self.member_code} : {self.member_user}"
+        return f"{self.member_user}"

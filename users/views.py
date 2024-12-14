@@ -44,7 +44,7 @@ def logout_view(request):
 
 def code_generate_member():
     while True:
-        member_code = secrets.token_hex(20)
+        member_code = secrets.token_hex(8)
         if not Member.objects.filter(member_code=member_code).exists():
             return member_code
 
@@ -137,7 +137,7 @@ def group_create(request):
 
 def code_generate_group():
     while True:
-        group_code = secrets.token_hex(20)
+        group_code = secrets.token_hex(8)
         if not Group.objects.filter(group_code=group_code).exists():
             return group_code
 
