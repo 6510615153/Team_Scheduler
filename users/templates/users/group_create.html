@@ -145,8 +145,7 @@
         <h2>Create New Team</h2>
         <form method="post">
             {% csrf_token %}
-            <label>Group Code</label>
-            The Code will be randomly generated.
+            A Code will be randomly generated and will be used to join group.
             <label>Group Name</label>
             {{ form.group_name }}
             <button type="submit">Register</button>
