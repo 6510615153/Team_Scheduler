@@ -33,7 +33,7 @@ class UsersTestCase(TestCase):
         self.assertEqual(self.group.get_code(), "gggg")
 
     def test_member_str(self):
-        self.assertEqual(str(self.member), " : testuser1")
+        self.assertEqual(str(self.member), "testuser1")
 
 
     #####################################################################
